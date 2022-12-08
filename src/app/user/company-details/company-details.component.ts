@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpserviceService } from 'src/app/Services/HttpServices/httpservice.service';
+import { confrimPasswordValidate } from 'src/app/Shared/password.validator';
 
 @Component({
   selector: 'app-company-details',
@@ -28,6 +29,10 @@ export class CompanyDetailsComponent implements OnInit {
   sortBy: string = ''; //query parameter
   page: string = ''; //query parameter
   searchName: string = ''; //query parameter
+
+
+  idToUpdateUser:string=''; // to update user details like user role and all user info 
+
 
   ngOnInit(): void {
     this.httpser.getData('/auth/self').subscribe(
@@ -106,12 +111,23 @@ export class CompanyDetailsComponent implements OnInit {
     }
   }
 
+  takeIdForUpdate(_id:string){
+    this.idToUpdateUser=_id;
+  }
+
+  cancelIdAfterUse():void{
+    this.idToUpdateUser='';
+  }
+
   updateUserDetails(_id: string) {
     console.log(_id);
   }
 
-  updateUserRole(_id: string) {
-    console.log(_id);
+
+
+  updateUserRole(radio: any) {
+    console.log(radio.target.value);
+    console.log(this.idToUpdateUser);
   }
 
   handlePageSize(pageSize: any) {
@@ -157,5 +173,34 @@ export class CompanyDetailsComponent implements OnInit {
     this.getUserResults(this.createQuery());
   }
 
-  
+  newUser = this.fb.group(
+    {
+      name: ['', [Validators.required]],
+      role: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^(?=.*[0-9])(?=.*[aA-zZ])/),
+          Validators.minLength(8),
+        ],
+      ],
+      confirmPassword: ['', [Validators.required]],
+    },
+    { validators: confrimPasswordValidate }
+  );
+
+  createNewUser(): void {
+    console.log(this.newUser.value);
+    delete this.newUser.value.confirmPassword;
+    this.httpser.postData('/users', this.newUser.value).subscribe(
+      (res: any) => {
+        console.log(res);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
 }

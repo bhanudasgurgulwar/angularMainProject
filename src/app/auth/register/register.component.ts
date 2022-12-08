@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import {  FormBuilder, Validators } from '@angular/forms';
+import { confrimPasswordValidate } from '../../Shared/password.validator'
 
 @Component({
   selector: 'app-register',
@@ -23,19 +24,19 @@ export class RegisterComponent {
     ],
     confirmPassword: ['', [Validators.required]],
     
-  },{validators:this.confrimPasswordValidate});
+  },{validators:confrimPasswordValidate});
 
-  confrimPasswordValidate(controls:AbstractControl){
-    let pass =controls.get('password');
-    let conpass =controls.get('confirmPassword');
-    if(conpass?.dirty && pass?.dirty && pass.value!==conpass.value){
-      return {isMatch:true}
-    }
-    else{
-      return null;
-    }
+  // confrimPasswordValidate(controls:AbstractControl){
+  //   let pass =controls.get('password');
+  //   let conpass =controls.get('confirmPassword');
+  //   if(conpass?.dirty && pass?.dirty && pass.value!==conpass.value){
+  //     return {isMatch:true}
+  //   }
+  //   else{
+  //     return null;
+  //   }
 
-  }
+  // }
 
   isRegistered() {
     console.log(this.registerData.value);
