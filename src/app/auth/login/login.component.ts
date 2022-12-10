@@ -14,15 +14,17 @@ export class LoginComponent {
     private fb: FormBuilder,
     private httpser: HttpserviceService,
     private loaclser: LocalServiceService,
-    private router:Router,
+    private router: Router
   ) {}
 
   loginData = this.fb.group({
     email: ['', [Validators.required]],
     password: ['', [Validators.required]],
+    captcha: 'captcha',
   });
 
   isLogin() {
+    delete this.loginData.value.captcha;
     console.log(this.loginData.value);
     this.httpser
       .postData('/auth/login?captcha=false', this.loginData.value)
@@ -30,7 +32,22 @@ export class LoginComponent {
         (res: any) => {
           console.log(res);
           this.loaclser.setLoacl(res?.token);
-          this.router.navigate(['/user'])
+          this.router.navigate(['/user']);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+  }
+
+  forgotPassword() {
+    delete this.loginData.value.password;
+
+    this.httpser
+      .postData('/auth/forgot-password', this.loginData.value)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
         },
         (err) => {
           console.log(err);

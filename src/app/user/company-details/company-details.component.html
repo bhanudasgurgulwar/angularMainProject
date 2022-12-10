@@ -17,11 +17,11 @@
               <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
                   <button
-                    class="accordion-button"
+                    class="accordion-button collapsed"
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#collapseOne"
-                    aria-expanded="true"
+                    aria-expanded="false"
                     aria-controls="collapseOne"
                   >
                     Edit Company Info
@@ -91,7 +91,8 @@
           type="button"
           class="btn btn-outline-light btn-sm"
           data-bs-toggle="modal"
-          data-bs-target="#staticBackdrop"
+          data-bs-target="#staticBackdropCreateUser"
+          (click)="handle()"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -212,7 +213,9 @@
               <td>
                 <button
                   class="btn btn-info btn-sm mx-1"
-                  (click)="updateUserDetails(item?._id)"
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdropCreateUser"
+                  (click)="handleModalToggle(item)"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -298,31 +301,20 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-body">
-        change Role
-
         <div class="mx-2">
-          <label>Choose Role : </label>
-          <input
-            class="mx-1"
-            type="radio"
-            value="user"
-            name="updatedRole"
-            id="user"
-            (change)="updateUserRole($event)"
-            />
-            <label for="user">User</label>
-          <input
-            class="mx-1"
-            type="radio"
-            value="admin"
-            name="updatedRole"
-            id="admin"
-            (change)="updateUserRole($event)"
-          />
-          <label for="admin">Admin</label>
+          <label class="px-3">Choose Role : </label>
+          <select #role class="">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+          <button
+            data-bs-dismiss="modal"
+            (click)="updateUserRole(role.value)"
+            class="btn btn-sm btn-primary mt-2"
+          >
+            Update Role
+          </button>
         </div>
-
-        <!-- <button (click)="updateUserRole()" class="btn btn-sm btn-primary">Update Role</button> -->
       </div>
 
       <div class="modal-footer p-0">
@@ -342,7 +334,7 @@
 <!-- Modal -->
 <div
   class="modal fade"
-  id="staticBackdrop"
+  id="staticBackdropCreateUser"
   data-bs-backdrop="static"
   data-bs-keyboard="false"
   tabindex="-1"
@@ -352,9 +344,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">
-          Create New User
-        </h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel"></h1>
         <button
           type="button"
           class="btn-close"
@@ -363,184 +353,334 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form
-          class="mx-1 mx-md-4"
-          [formGroup]="newUser"
-          (ngSubmit)="createNewUser()"
-        >
-          <div class="d-flex flex-row align-items-center mb-1">
-            <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-            <div class="form-outline flex-fill mb-0">
-              <label class="form-label" for="form3Example1c">Your Name</label>
-              <input
-                [class.is-invalid]="
-                  newUser.get('name')?.invalid && newUser.get('name')?.touched
-                "
-                type="text"
-                id="form3Example1c"
-                class="form-control"
-                formControlName="name"
-              />
-              <div
-                *ngIf="newUser.invalid && newUser.get('name')?.touched"
-                style="font-size: 12px"
-              >
-                <small
-                  *ngIf="newUser.get('name')?.errors?.['required']"
-                  class="text-danger"
-                  >*Enter Your Name
-                </small>
-              </div>
-            </div>
-          </div>
-
-          <div class="d-flex flex-row align-items-center mb-1">
-            <div class="mx-2">
-              <label>Choose Role : </label>
-              <input
-                class="mx-1"
-                type="radio"
-                value="user"
-                formControlName="role"
-              />User
-              <input
-                class="mx-1"
-                type="radio"
-                value="admin"
-                formControlName="role"
-              />Admin
-            </div>
-            <div
-              *ngIf="newUser.invalid && newUser.get('role')?.touched"
-              style="font-size: 12px"
-            >
-              <small
-                *ngIf="newUser.get('role')?.errors?.['required']"
-                class="text-danger"
-                >*Choose Role
-              </small>
-            </div>
-          </div>
-
-          <div class="d-flex flex-row align-items-center mb-1">
-            <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-            <div class="form-outline flex-fill mb-0">
-              <label class="form-label" for="form3Example3c">Your Email</label>
-              <input
-                [class.is-invalid]="
-                  newUser.get('email')?.invalid && newUser.get('email')?.touched
-                "
-                type="email"
-                id="form3Example3c"
-                class="form-control"
-                formControlName="email"
-              />
-              <div
-                *ngIf="newUser.invalid && newUser.get('email')?.touched"
-                style="font-size: 12px"
-              >
-                <small
-                  *ngIf="newUser.get('email')?.errors?.['required']"
-                  class="text-danger"
-                  >*enter your email
-                </small>
-                <small
-                  *ngIf="newUser.get('email')?.errors?.['email']"
-                  class="text-danger"
-                  >*enter valid email
-                </small>
-              </div>
-            </div>
-          </div>
-
-          <div class="d-flex flex-row align-items-center mb-1">
-            <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
-            <div class="form-outline flex-fill mb-0">
-              <label class="form-label" for="form3Example4c">Password</label>
-              <input
-                [class.is-invalid]="
-                  newUser.get('password')?.invalid &&
-                  newUser.get('password')?.touched
-                "
-                type="password"
-                id="form3Example4c"
-                class="form-control"
-                formControlName="password"
-              />
-              <div
-                *ngIf="newUser.invalid && newUser.get('password')?.touched"
-                style="font-size: 12px"
-              >
-                <small
-                  *ngIf="newUser.get('password')?.errors?.['required']"
-                  class="text-danger"
-                  >*password is required
-                </small>
-
-                <small
-                  *ngIf="newUser.get('password')?.errors?.['minlength']"
-                  class="text-danger"
-                  >*Pasword must have 8 characters</small
+        <div *ngIf="modalToggle1 === 'createUser'">
+          <form
+            class="mx-1 mx-md-4"
+            [formGroup]="newUser"
+            (ngSubmit)="createNewUser()"
+          >
+            <div class="d-flex flex-row align-items-center mb-1">
+              <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+              <div class="form-outline flex-fill mb-0">
+                <label class="form-label" for="form3Example1c">Your Name</label>
+                <input
+                  [class.is-invalid]="
+                    newUser.get('name')?.invalid && newUser.get('name')?.touched
+                  "
+                  type="text"
+                  id="form3Example1c"
+                  class="form-control"
+                  formControlName="name"
+                />
+                <div
+                  *ngIf="newUser.invalid && newUser.get('name')?.touched"
+                  style="font-size: 12px"
                 >
-
-                <small
-                  *ngIf="newUser.get('password')?.errors?.['pattern']"
-                  class="text-danger"
-                  >*Pasword must contain one number and alphabet</small
-                >
+                  <small
+                    *ngIf="newUser.get('name')?.errors?.['required']"
+                    class="text-danger"
+                    >*Enter Your Name
+                  </small>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="d-flex flex-row align-items-center mb-1">
-            <i class="fas fa-key fa-lg me-3 fa-fw"></i>
-            <div class="form-outline flex-fill mb-0">
-              <label class="form-label" for="form3Example4cd"
-                >Repeat your password</label
-              >
-              <input
-                [class.is-invalid]="
-                  newUser.get('confirmPassword')?.invalid &&
-                  newUser.get('confirmPassword')?.touched
-                "
-                type="password"
-                id="form3Example4cd"
-                class="form-control"
-                formControlName="confirmPassword"
-              />
+            <div class="d-flex flex-row align-items-center mb-1">
+              <div class="mx-2">
+                <label>Choose Role : </label>
+                <input
+                  class="mx-1"
+                  type="radio"
+                  value="user"
+                  formControlName="role"
+                />User
+                <input
+                  class="mx-1"
+                  type="radio"
+                  value="admin"
+                  formControlName="role"
+                />Admin
+              </div>
               <div
-                *ngIf="
-                  newUser.invalid && newUser.get('confirmPassword')?.touched
-                "
+                *ngIf="newUser.invalid && newUser.get('role')?.touched"
                 style="font-size: 12px"
               >
                 <small
-                  *ngIf="newUser.get('confirmPassword')?.errors?.['required']"
+                  *ngIf="newUser.get('role')?.errors?.['required']"
                   class="text-danger"
-                  >Confrimation password is required
+                  >*Choose Role
                 </small>
-
-                <small *ngIf="newUser.errors?.['isMatch']" class="text-danger"
-                  >Paswords must match</small
-                >
               </div>
             </div>
-          </div>
-          <div class="d-flex justify-content-center mx-4">
-            <button
-              type="submit"
-              [disabled]="newUser.invalid"
-              class="btn btn-primary btn-lg"
-            >
-              Register
-            </button>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
+
+            <div class="d-flex flex-row align-items-center mb-1">
+              <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+              <div class="form-outline flex-fill mb-0">
+                <label class="form-label" for="form3Example3c"
+                  >Your Email</label
+                >
+                <input
+                  [class.is-invalid]="
+                    newUser.get('email')?.invalid &&
+                    newUser.get('email')?.touched
+                  "
+                  type="email"
+                  id="form3Example3c"
+                  class="form-control"
+                  formControlName="email"
+                />
+                <div
+                  *ngIf="newUser.invalid && newUser.get('email')?.touched"
+                  style="font-size: 12px"
+                >
+                  <small
+                    *ngIf="newUser.get('email')?.errors?.['required']"
+                    class="text-danger"
+                    >*enter your email
+                  </small>
+                  <small
+                    *ngIf="newUser.get('email')?.errors?.['email']"
+                    class="text-danger"
+                    >*enter valid email
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-row align-items-center mb-1">
+              <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+              <div class="form-outline flex-fill mb-0">
+                <label class="form-label" for="form3Example4c">Password</label>
+                <input
+                  [class.is-invalid]="
+                    newUser.get('password')?.invalid &&
+                    newUser.get('password')?.touched
+                  "
+                  type="password"
+                  id="form3Example4c"
+                  class="form-control"
+                  formControlName="password"
+                />
+                <div
+                  *ngIf="newUser.invalid && newUser.get('password')?.touched"
+                  style="font-size: 12px"
+                >
+                  <small
+                    *ngIf="newUser.get('password')?.errors?.['required']"
+                    class="text-danger"
+                    >*password is required
+                  </small>
+
+                  <small
+                    *ngIf="newUser.get('password')?.errors?.['minlength']"
+                    class="text-danger"
+                    >*Pasword must have 8 characters</small
+                  >
+
+                  <small
+                    *ngIf="newUser.get('password')?.errors?.['pattern']"
+                    class="text-danger"
+                    >*Pasword must contain one number and alphabet</small
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-row align-items-center mb-1">
+              <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+              <div class="form-outline flex-fill mb-0">
+                <label class="form-label" for="form3Example4cd"
+                  >Repeat your password</label
+                >
+                <input
+                  [class.is-invalid]="
+                    newUser.get('confirmPassword')?.invalid &&
+                    newUser.get('confirmPassword')?.touched
+                  "
+                  type="password"
+                  id="form3Example4cd"
+                  class="form-control"
+                  formControlName="confirmPassword"
+                />
+                <div
+                  *ngIf="
+                    newUser.invalid && newUser.get('confirmPassword')?.touched
+                  "
+                  style="font-size: 12px"
+                >
+                  <small
+                    *ngIf="newUser.get('confirmPassword')?.errors?.['required']"
+                    class="text-danger"
+                    >Confrimation password is required
+                  </small>
+
+                  <small *ngIf="newUser.errors?.['isMatch']" class="text-danger"
+                    >Paswords must match</small
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="d-flex m-3">
+              <button
+                type="submit"
+                [disabled]="newUser.invalid"
+                class="btn btn-primary btn-lg"
+              >
+                Save Changes
+              </button>
+            </div>
+          </form>
+        </div>
+        <div *ngIf="modalToggle1 === 'updateUser'">
+          <form
+            class="mx-1 mx-md-4"
+            [formGroup]="newUser"
+            (ngSubmit)="updateUserDetails()"
+          >
+            <div class="d-flex flex-row align-items-center mb-1">
+              <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+              <div class="form-outline flex-fill mb-0">
+                <label class="form-label" for="form3Example1c">Your Name</label>
+                <input
+                  [class.is-invalid]="
+                    newUser.get('name')?.invalid && newUser.get('name')?.touched
+                  "
+                  type="text"
+                  id="form3Example1c"
+                  class="form-control"
+                  formControlName="name"
+                />
+                <div
+                  *ngIf="newUser.invalid && newUser.get('name')?.touched"
+                  style="font-size: 12px"
+                >
+                  <small
+                    *ngIf="newUser.get('name')?.errors?.['required']"
+                    class="text-danger"
+                    >*Enter Your Name
+                  </small>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-row align-items-center mb-1">
+              <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+              <div class="form-outline flex-fill mb-0">
+                <label class="form-label" for="form3Example3c"
+                  >Your Email</label
+                >
+                <input
+                  [class.is-invalid]="
+                    newUser.get('email')?.invalid &&
+                    newUser.get('email')?.touched
+                  "
+                  type="email"
+                  id="form3Example3c"
+                  class="form-control"
+                  formControlName="email"
+                />
+                <div
+                  *ngIf="newUser.invalid && newUser.get('email')?.touched"
+                  style="font-size: 12px"
+                >
+                  <small
+                    *ngIf="newUser.get('email')?.errors?.['required']"
+                    class="text-danger"
+                    >*enter your email
+                  </small>
+                  <small
+                    *ngIf="newUser.get('email')?.errors?.['email']"
+                    class="text-danger"
+                    >*enter valid email
+                  </small>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-row align-items-center mb-1">
+              <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+              <div class="form-outline flex-fill mb-0">
+                <label class="form-label" for="form3Example4c">Password</label>
+                <input
+                  [class.is-invalid]="
+                    newUser.get('password')?.invalid &&
+                    newUser.get('password')?.touched
+                  "
+                  type="password"
+                  id="form3Example4c"
+                  class="form-control"
+                  formControlName="password"
+                />
+                <div
+                  *ngIf="newUser.invalid && newUser.get('password')?.touched"
+                  style="font-size: 12px"
+                >
+                  <small
+                    *ngIf="newUser.get('password')?.errors?.['required']"
+                    class="text-danger"
+                    >*password is required
+                  </small>
+
+                  <small
+                    *ngIf="newUser.get('password')?.errors?.['minlength']"
+                    class="text-danger"
+                    >*Pasword must have 8 characters</small
+                  >
+
+                  <small
+                    *ngIf="newUser.get('password')?.errors?.['pattern']"
+                    class="text-danger"
+                    >*Pasword must contain one number and alphabet</small
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-row align-items-center mb-1">
+              <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+              <div class="form-outline flex-fill mb-0">
+                <label class="form-label" for="form3Example4cd"
+                  >Repeat your password</label
+                >
+                <input
+                  [class.is-invalid]="
+                    newUser.get('confirmPassword')?.invalid &&
+                    newUser.get('confirmPassword')?.touched
+                  "
+                  type="password"
+                  id="form3Example4cd"
+                  class="form-control"
+                  formControlName="confirmPassword"
+                />
+                <div
+                  *ngIf="
+                    newUser.invalid && newUser.get('confirmPassword')?.touched
+                  "
+                  style="font-size: 12px"
+                >
+                  <small
+                    *ngIf="newUser.get('confirmPassword')?.errors?.['required']"
+                    class="text-danger"
+                    >Confrimation password is required
+                  </small>
+
+                  <small *ngIf="newUser.errors?.['isMatch']" class="text-danger"
+                    >Paswords must match</small
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="d-flex m-3">
+              <button
+                type="submit"
+                [disabled]="newUser.invalid"
+                data-bs-dismiss="modal"
+                class="btn btn-primary btn-lg"
+              >
+                Save Changes
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>

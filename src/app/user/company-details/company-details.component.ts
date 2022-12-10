@@ -30,9 +30,9 @@ export class CompanyDetailsComponent implements OnInit {
   page: string = ''; //query parameter
   searchName: string = ''; //query parameter
 
+  modalToggle1 = 'createUser'; //to toggle betwwen different modal body
 
-  idToUpdateUser:string=''; // to update user details like user role and all user info 
-
+  idToUpdateUser: string = ''; // to update user details like user role and all user info
 
   ngOnInit(): void {
     this.httpser.getData('/auth/self').subscribe(
@@ -111,23 +111,62 @@ export class CompanyDetailsComponent implements OnInit {
     }
   }
 
-  takeIdForUpdate(_id:string){
-    this.idToUpdateUser=_id;
+  takeIdForUpdate(_id: string) {
+    this.idToUpdateUser = _id;
   }
 
-  cancelIdAfterUse():void{
-    this.idToUpdateUser='';
+  cancelIdAfterUse(): void {
+    this.idToUpdateUser = '';
   }
 
-  updateUserDetails(_id: string) {
-    console.log(_id);
+  updateUserDetails() {
+    delete this.newUser.value.confirmPassword;
+    delete this.newUser.value.role;
+
+    console.log(this.newUser.value)
+
+    this.httpser.updateData('/users/', this.idToUpdateUser, this.newUser.value).subscribe(
+      (res: any) => {
+        console.log(res);
+          this.getUserResults(this.createQuery());
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
-
-
-  updateUserRole(radio: any) {
-    console.log(radio.target.value);
+  handleModalToggle(user: any){
+    console.log(user);
+    this.modalToggle1 = 'updateUser';
+    this.idToUpdateUser = user?._id;
     console.log(this.idToUpdateUser);
+    this.newUser.controls['name'].setValue(user?.name);
+    this.newUser.controls['email'].setValue(user?.email);
+  }
+  handle() {
+    if (this.modalToggle1 === 'updateUser') {
+      this.modalToggle1 = 'createUser';
+    } else {
+      this.modalToggle1 = 'createUser';
+    }
+  }
+
+  updateUserRole(role: string) {
+    console.log(role);
+    console.log(this.idToUpdateUser);
+    this.httpser
+      .updateData('/users/role/', this.idToUpdateUser, { role: role })
+      .subscribe(
+        (res) => {
+          console.log(res);
+          this.getUserResults(this.createQuery());
+          alert('user succesfully updated');
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
   }
 
   handlePageSize(pageSize: any) {
@@ -176,7 +215,7 @@ export class CompanyDetailsComponent implements OnInit {
   newUser = this.fb.group(
     {
       name: ['', [Validators.required]],
-      role: ['', [Validators.required]],
+      role: [''],
       email: ['', [Validators.required, Validators.email]],
       password: [
         '',

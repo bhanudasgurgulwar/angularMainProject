@@ -11,9 +11,11 @@ import { UserRoutingModule } from './user/user-routing.module';
 import { HttpserviceService } from './Services/HttpServices/httpservice.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpinterceptorInterceptor } from './Services/HttpServices/httpinterceptor.interceptor';
+import { HeaderComponent } from './addOn/header/header.component';
+import { FooterComponent } from './addOn/footer/footer.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, HeaderComponent, FooterComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
