@@ -1,13 +1,13 @@
-<nav class="navbar navbar-expand-lg bg-light border">
+<nav class="navbar navbar-expand-lg bg-dark">
   <div class="container-fluid">
     <button
-      class="btn btn-primary btn-sm"
+      class="btn btn-outline-warning btn-sm"
       type="button"
       data-bs-toggle="offcanvas"
       data-bs-target="#staticBackdrop"
       aria-controls="staticBackdrop"
     >
-      User
+    wel-come {{actUser?.name}}
     </button>
     <button
       class="navbar-toggler"
@@ -18,26 +18,28 @@
       aria-expanded="false"
       aria-label="Toggle navigation"
     >
-      <span class="navbar-toggler-icon"></span>
+      <!-- <span class="navbar-toggler-icon text-white"></span> -->
+      <i class="bi bi-list text-white"> </i>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav text-white">
         <li class="nav-item">
           <a
-            class="nav-link active"
+            
+            class="nav-link active text-white"
             aria-current="page"
             routerLink="/user/companyDetails"
-            >Home</a
+            >Company</a
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link">Features</a>
+          <a class="nav-link text-white" routerLink="/products/product-details" >Products</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link">Pricing</a>
+          <a class="nav-link text-white">Pricing</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled">Disabled</a>
+          <a class="nav-link text-white disabled">Disabled</a>
         </li>
       </ul>
     </div>
@@ -65,31 +67,55 @@
   </div>
   <div class="offcanvas-body">
     <div>
-      <h6>
-        Bhanu Gurgulwar <span class="badge text-bg-success">verified</span>
-      </h6>
-      <h6>bhanu@email.com</h6>
-      <h6>admin</h6>
-      <h6>company name</h6>
-      <h6>company email</h6>
+      <h5>
+        {{ actUser?.name }}
+        <span *ngIf="actUser.isEmailVerified" class="badge text-bg-success "
+          ><i class="bi bi-patch-check-fill"></i> verified  </span
+        ><span *ngIf="actUser.isEmailVerified===false" class="badge text-bg-danger"
+          >not-verified</span
+        >
+      </h5>
+      <h6>{{ actUser?.email }}</h6>
+      <h6>{{ actUser?.role }}</h6>
+      <hr>
+      <h5>{{actUser?._org?.name}}</h5>
+      <h6>{{actUser?._org?.email}}</h6>
       <button class="btn btn-outline-danger">Log-Out</button>
     </div>
-    <div class="mt-4 ">
+    <div class="mt-4">
       <div class="dropdown d-flex">
         <button
-          class="btn btn-secondary  dropdown-toggle"
+          class="btn btn-secondary dropdown-toggle"
           type="button"
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
           Account Setting
         </button>
-        <ul class="dropdown-menu dropdown-menu-dark ">
-          <li><a class="dropdown-item " (click)="sendVerfiactionMail()" >Send Verification Email</a></li>
+        <ul class="dropdown-menu dropdown-menu-dark">
+          <li>
+            <a class="dropdown-item" (click)="sendVerfiactionMail()"
+              >Send Verification Email</a
+            >
+          </li>
           <li><a class="dropdown-item">Verify Email</a></li>
-          <li><a class="dropdown-item" routerLink="/user/change-password">Change Password</a></li>
+          <li>
+            <a
+              class="dropdown-item"
+              routerLink="/user/change-password"
+              data-bs-dismiss="offcanvas"
+              >Change Password</a
+            >
+          </li>
           <li><hr class="dropdown-divider" /></li>
-          <li><a class="dropdown-item" href="https://ethereal.email/login" target="_blank" >check mail here</a></li>
+          <li>
+            <a
+              class="dropdown-item"
+              href="https://ethereal.email/login"
+              target="_blank"
+              >check mail here</a
+            >
+          </li>
         </ul>
       </div>
     </div>

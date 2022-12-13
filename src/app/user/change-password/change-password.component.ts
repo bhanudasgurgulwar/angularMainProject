@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms'; 
+import { Router } from '@angular/router';
 import { HttpserviceService } from 'src/app/Services/HttpServices/httpservice.service';
 
 
@@ -9,7 +10,7 @@ import { HttpserviceService } from 'src/app/Services/HttpServices/httpservice.se
   styleUrls: ['./change-password.component.scss'],
 })
 export class ChangePasswordComponent {
-  constructor(private fb: FormBuilder,private http :HttpserviceService) {}
+  constructor(private fb: FormBuilder,private http :HttpserviceService,private router:Router) {}
 
   changePassword = this.fb.group({
     old_password: ['', [Validators.required]],
@@ -44,6 +45,8 @@ export class ChangePasswordComponent {
     this.http.postData('/users/auth/change-password', this.changePassword.value).subscribe(
       (res) => {
         console.log(res);
+        alert("Succesfully Changed Password")
+        this.router.navigate(['/user'])
       },
       (err) => {
         console.log(err);

@@ -63,8 +63,14 @@
       </div>
 
       <div class="col">
-        <!-- Simple link -->
-        <a >Forgot password?</a>
+        <!-- Button trigger modal -->
+        <a
+          style="cursor: pointer;"
+          class="text-primary text-decoration-underline"
+          data-bs-toggle="modal"
+          data-bs-target="#staticBackdropForgotPassword"
+          >Forgot password?</a
+        >
       </div>
     </div>
 
@@ -82,20 +88,69 @@
       <p>Not a member? <a routerLink="/auth/register">Register</a></p>
       <p>or sign up with:</p>
       <button type="button" class="btn btn-link btn-floating mx-1">
-        <i class="fab fa-facebook-f"></i>
+      <i class="bi bi-facebook"></i>
       </button>
 
       <button type="button" class="btn btn-link btn-floating mx-1">
-        <i class="fab fa-google"></i>
-      </button>
-
-      <button type="button" class="btn btn-link btn-floating mx-1">
-        <i class="fab fa-twitter"></i>
-      </button>
-
-      <button type="button" class="btn btn-link btn-floating mx-1">
-        <i class="fab fa-github"></i>
+       <i class="bi bi-google"></i>
       </button>
     </div>
   </form>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="staticBackdropForgotPassword"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+          Forgot Password
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="loginData" (ngSubmit)="forgotPassword()">
+          <div class="form-outline mb-4">
+            <label class="form-label" for="form2Example1fp"
+              >Email address</label
+            >
+            <input
+              [class.is-invalid]="
+                loginData.get('email')?.invalid &&
+                loginData.get('email')?.touched
+              "
+              type="email"
+              id="form2Example1fp"
+              class="form-control"
+              formControlName="email"
+              placeholder="abc@mail.com"
+            />
+            <small
+              *ngIf="loginData.get('email')?.errors?.['email']"
+              class="text-danger"
+              >*Enter Valid Email
+            </small>
+          </div>
+          <div class="d-flex">
+            <button class="btn btn-primary btn-sm"   data-bs-dismiss="modal" type="submit">
+              Request Reset Password
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

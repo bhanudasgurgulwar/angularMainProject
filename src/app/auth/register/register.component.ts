@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {  FormBuilder, Validators } from '@angular/forms';
+import { HttpserviceService } from 'src/app/Services/HttpServices/httpservice.service';
 import { confrimPasswordValidate } from '../../Shared/password.validator'
 
 @Component({
@@ -8,11 +9,11 @@ import { confrimPasswordValidate } from '../../Shared/password.validator'
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder,private http:HttpserviceService) {}
 
   registerData = this.fb.group({
     name: ['', [Validators.required]],
-    companyName: ['', [Validators.required]],
+    company: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
     password: [
       '',
@@ -42,5 +43,14 @@ export class RegisterComponent {
     console.log(this.registerData.value);
     delete this.registerData.value.confirmPassword;
     console.log(this.registerData.value);
+    this.http
+      .postData('/auth/register?captcha=false', this.registerData.value)
+      .subscribe(
+        (res: any) => {},
+        (err) => {
+          console.log(err);
+        }
+      );
+
   }
 }

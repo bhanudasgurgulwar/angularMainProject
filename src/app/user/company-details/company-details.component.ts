@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { GenSerService } from 'src/app/Services/general/gen-ser.service';
 import { HttpserviceService } from 'src/app/Services/HttpServices/httpservice.service';
 import { confrimPasswordValidate } from 'src/app/Shared/password.validator';
 
@@ -13,7 +14,8 @@ export class CompanyDetailsComponent implements OnInit {
   constructor(
     private httpser: HttpserviceService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private bSub: GenSerService
   ) {}
   users: any;
   //all users array data
@@ -35,16 +37,21 @@ export class CompanyDetailsComponent implements OnInit {
   idToUpdateUser: string = ''; // to update user details like user role and all user info
 
   ngOnInit(): void {
+    this.getActiveUser();
+    this.getUserResults(this.createQuery());
+  }
+
+  getActiveUser() {
     this.httpser.getData('/auth/self').subscribe(
       (res) => {
         this.userData = res;
+        this.bSub.activeUser.next(res);
         console.log(res);
       },
       (err) => {
         console.log(err);
       }
     );
-    this.getUserResults(this.createQuery());
   }
 
   createQuery() {
@@ -80,15 +87,7 @@ export class CompanyDetailsComponent implements OnInit {
       .subscribe(
         (res: any) => {
           console.log(res);
-          this.httpser.getData('/auth/self').subscribe(
-            (res) => {
-              this.userData = res;
-              console.log(res);
-            },
-            (err) => {
-              console.log(err);
-            }
-          );
+          this.getActiveUser();
         },
         (err) => {
           console.log(err);
@@ -123,20 +122,22 @@ export class CompanyDetailsComponent implements OnInit {
     delete this.newUser.value.confirmPassword;
     delete this.newUser.value.role;
 
-    console.log(this.newUser.value)
+    console.log(this.newUser.value);
 
-    this.httpser.updateData('/users/', this.idToUpdateUser, this.newUser.value).subscribe(
-      (res: any) => {
-        console.log(res);
+    this.httpser
+      .updateData('/users/', this.idToUpdateUser, this.newUser.value)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
           this.getUserResults(this.createQuery());
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
   }
 
-  handleModalToggle(user: any){
+  handleModalToggle(user: any) {
     console.log(user);
     this.modalToggle1 = 'updateUser';
     this.idToUpdateUser = user?._id;
