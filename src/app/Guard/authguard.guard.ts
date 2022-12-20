@@ -21,7 +21,7 @@ export class isLoginGuard implements CanActivate {
     if (this.auth.isLoggedIn()) {
       return true;
     }
-    this.router.navigate(['/auth']);
+    this.router.navigate(['/seller/auth']);
     return false;
   }
 }
@@ -38,7 +38,7 @@ export class isLogoutGuard implements CanActivate {
     if (!this.auth.isLoggedIn()) {
       return true;
     }
-    this.router.navigate(['/user']);
+    this.router.navigate(['/seller/user']);
     return false;
   }
 }

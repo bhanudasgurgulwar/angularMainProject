@@ -1,0 +1,155 @@
+<div class="d-flex flex-column justify-content-center align-items-center">
+  <div class="mt-5 p-5 rounded shadow-lg row" style="width: 80%">
+    <div class="col-lg-6">
+      <div *ngIf="toggleEdit != 'edit'">
+        <div class="m-3 mt-0 d-flex justify-content-between my-3">
+          <button class="btn btn-outline-danger btn-sm" (click)="deleteProduct()">
+            <i class="bi bi-trash3-fill"></i>
+          </button>
+          <button class="btn btn-info btn-sm" (click)="toggleEditDiv('edit')">
+            <i class="bi bi-pencil-square"></i>
+          </button>
+        </div>
+        <div class="bg-secondary text-white rounded px-3 p-1">
+          <h3>{{ selectedProductData?.name }}</h3>
+          <hr />
+          <p>{{ selectedProductData?.description }}</p>
+          <hr />
+          <p>
+            <small>{{ selectedProductData?.price | currency : "INR" }}</small>
+          </p>
+        </div>
+      </div>
+      <div *ngIf="toggleEdit == 'edit'">
+        <form [formGroup]="productInfoEdit" (ngSubmit)="editProductData()">
+          <div
+            class="d-flex justify-content-between bg-secondary rounded align-items-center p-2 border border-light"
+          >
+            <h3 class="text-white ps-3">Edit Product Details</h3>
+            <div class="form-check form-switch form-check-reverse me-2">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="flexSwitchCheckReverse"
+                (change)="toggleImageEdit()"
+              />
+              <label
+                class="form-check-label text-white"
+                for="flexSwitchCheckReverse"
+                >Update Images</label
+              >
+            </div>
+          </div>
+          <div class="input-group flex-nowrap m-1">
+            <input
+              type="text"
+              class="form-control border-secondary"
+              placeholder="Product Name"
+              aria-label="Username"
+              aria-describedby="addon-wrapping"
+              formControlName="name"
+            />
+          </div>
+          <div class="input-group flex-nowrap m-1">
+            <textarea
+              type="text"
+              class="form-control border-secondary"
+              placeholder="Product Description"
+              rows="6"
+              aria-label="Username"
+              aria-describedby="addon-wrapping"
+              formControlName="description"
+            ></textarea>
+          </div>
+          <div class="input-group flex-nowrap m-1">
+            <input
+              type="text"
+              class="form-control border-secondary"
+              placeholder="Product price"
+              aria-label="Username"
+              aria-describedby="addon-wrapping"
+              formControlName="price"
+            />
+          </div>
+          <div class="d-flex justify-content-between">
+            <button
+              type="button"
+              (click)="toggleEditDiv('e')"
+              class="mx-2 btn btn-secondary"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary mx-2">
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div *ngIf="!flag">
+        <div class="d-flex justify-content-center my-3">
+          <img
+            class="bg-dark p-1"
+            src="{{ imageURl }}"
+            alt=""
+            style="width: 30vw; height: 50vh"
+          />
+        </div>
+
+        <div class="d-flex justify-content-around p-2">
+          <div *ngFor="let img of selectedProductData?.images">
+            <img
+              (click)="getImageURl(img?.url)"
+              class="bg-dark p-1"
+              src="{{ img?.url }}"
+              alt=""
+              style="width: 60px; height: 60px"
+            />
+          </div>
+        </div>
+      </div>
+      <div *ngIf="flag">
+        <div style="height: 15rem" class="d-flex my-3 flex-wrap overflow-auto">
+          <div class="p-1" *ngFor="let img of imagesArray; index as i">
+            <div class="card text-end" style="width: 6.5rem; height: 6.5rem">
+              <img
+                class="card-img"
+                style="height: inherit; width: inherit; object-fit: cover"
+                src="{{ img?.url }}"
+                alt=""
+              />
+              <div class="card-img-overlay">
+                <button
+                  class="btn btn-danger btn-sm"
+                  (click)="delImage(i, img?.public_id)"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 bg-white rounded p-3">
+          <input
+            name="imagesedit"
+            id="imagesedit"
+            (change)="updateImages($event)"
+            type="file"
+            multiple
+            #updateImage
+          />
+          <label for="imagesedit"></label>
+        </div>
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-secondary" (click)="resetDelImages()">
+            Reset
+          </button>
+          <button class="btn btn-primary" (click)="updateImageSubmit()">
+            Update Images
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,104 @@
+<div
+  class="bg-primary d-flex justify-content-between align-items-baseline px-3 py-2"
+>
+  <h3 class="text-white">Create Product</h3>
+  <div>
+    <button
+      routerLink="/seller/products/create-product"
+      class="btn btn-sm btn-outline-light"
+    >
+      Create <i class="bi bi-boxes"></i>
+    </button>
+  </div>
+</div>
+<div class="d-md-flex justify-content-evenly bg-dark p-1">
+  <div>
+    <select
+      class="form-select form-select-sm m-1"
+      aria-label="Default select example "
+      #limit
+      (change)="handleLimit(limit.value)"
+    >
+      <option selected value="10">10</option>
+      <option value="8">8</option>
+      <option value="4">4</option>
+      <option value="12">12</option>
+    </select>
+  </div>
+  <div>
+    <select
+      class="form-select form-select-sm m-1"
+      aria-label="Default select example"
+      #sortBy
+      (change)="handleSortBy(sortBy.value)"
+    >
+      <option selected value="">All</option>
+      <option value="name">Name</option>
+      <option value="price">Price</option>
+    </select>
+  </div>
+  <div class="d-flex m-1">
+    <div class="input-group input-group-sm">
+      <input
+        type="text"
+        class="form-control"
+        aria-label="Sizing example input"
+        aria-describedby="inputGroup-sizing-sm"
+      />
+      <button class="btn btn-sm btn-outline-success">Search</button>
+    </div>
+  </div>
+</div>
+<div class="d-flex flex-wrap justify-content-center align-content-center">
+  <div *ngFor="let product of allProducts" class="p-1">
+    <div class="card" style="width: 18rem">
+      <img
+        src="{{ product?.images[0]?.url }}"
+        class="card-img-top"
+        style="width: 100%; height: 170px; object-fit: cover"
+        alt="image"
+      />
+      <div class="card-body">
+        <h6 style="height: 2.4rem" class="card-title">{{ product?.name }}</h6>
+        <p>
+          <small class="card-text">
+            {{ product?.price | currency : "INR" }}
+          </small>
+        </p>
+        <div class="d-flex">
+          <button
+            class="btn btn-sm btn-outline-dark w-100"
+            (click)="openTheProductInfo(product)"
+          >
+            View Product details
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="d-flex justify-content-center p-1 bg-dark m-0">
+  <nav aria-label="...">
+    <ul class="pagination pagination-sm">
+      <button
+        class="btn btn-sm btn-primary page-item active"
+        aria-current="prev"
+        (click)="previousPage()"
+        [ngClass]="currentPage === 1 ? 'btn-secondary disabled' : 'btn-primary'"
+      >
+        Previous
+      </button>
+      <button class="btn btn-sm btn-outline-primary">{{ currentPage }}</button>
+      <button
+        [ngClass]="
+          currentPage === totalPages ? 'btn-secondary disabled' : 'btn-primary'
+        "
+        class="btn btn-sm page-item active"
+        aria-current="prev"
+        (click)="nextPage()"
+      >
+        Next
+      </button>
+    </ul>
+  </nav>
+</div>

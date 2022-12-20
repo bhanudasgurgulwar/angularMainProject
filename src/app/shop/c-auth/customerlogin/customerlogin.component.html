@@ -1,0 +1,52 @@
+<div class="d-flex w-100 vh-100 justify-content-center align-items-center">
+  <div
+    class="p-3 rounded-2"
+    style="
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(50px);
+    "
+  >
+    <div class="p-3 my-2 rounded-2" style="backdrop-filter: blur(10px)">
+      <img
+        src="../../../../assets/undraw_my_password_re_ydq7.svg"
+        style="max-height: 100px"
+        class="w-100"
+        alt=""
+      />
+      <form [formGroup]="cLogin" (ngSubmit)="customerLogin()" class="my-3">
+        <div class="form-floating mb-3">
+          <input
+            type="email"
+            class="form-control form-control-sm"
+            id="floatingInput"
+            placeholder="name@example.com"
+            formControlName="email"
+          />
+          <label for="floatingInput">Email address</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input
+            type="password"
+            class="form-control"
+            id="floatingPassword"
+            placeholder="Password"
+            formControlName="password"
+          />
+          <label for="floatingPassword">Password</label>
+        </div>
+        <div class="">
+          <button
+            [ngClass]="
+              cLogin.invalid ? 'disabled btn-secondary' : 'btn-primary'
+            "
+            type="submit"
+            class="btn btn-sm w-100"
+          >
+            Log-in
+          </button>
+        </div>
+      </form>
+      <a routerLink="/auth/registration" >Sign up inseaad</a>
+    </div>
+  </div>
+</div>

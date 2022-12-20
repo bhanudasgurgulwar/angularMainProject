@@ -1,0 +1,143 @@
+<div class="d-flex justify-content-evenly bg-dark">
+  <div>
+    <select class="form-select" aria-label="Default select example">
+      <option selected value="10">10</option>
+      <option value="12">12</option>
+      <option value="8">8</option>
+      <option value="4">4</option>
+    </select>
+  </div>
+  <div>
+    <select class="form-select" aria-label="Default select example">
+      <option selected value="">All</option>
+      <option value="name">Name</option>
+      <option value="price">Price</option>
+      <option value="CreatedOn">Created On</option>
+    </select>
+  </div>
+
+  <form class="d-flex" role="search">
+    <input
+      class="form-control me-2"
+      type="search"
+      placeholder="Search"
+      aria-label="Search"
+    />
+    <button class="btn btn-outline-success" type="submit">Search</button>
+  </form>
+</div>
+
+<div class="container-fluid">
+  <div class="d-flex justify-content-center flex-wrap">
+    <div
+      class="popout-effect m-3 rounded"
+      *ngFor="let product of allProducts; let i = index"
+    >
+      <div class="rounded bg-light" style="width: 200px">
+        <!-- <div>
+          <img
+            style="height: 200px"
+            class="w-100"
+            src="{{ product?.images[0]?.url }}"
+            alt=""
+          />
+        </div> -->
+        <!-- carousel -->
+        <div
+          class="carousel slide carousel-inner"
+          id="product-carousel{{ i }}"
+          data-bs-ride="carousel"
+        >
+          <div class="carousel-inner">
+            <div
+              *ngFor="let image of product.images; let index = index"
+              class="carousel-item"
+              [ngClass]="index === 0 ? 'active' : null"
+            >
+              <img
+                [src]="image.url"
+                class="w-100"
+                style="height: 200px"
+                alt="..."
+              />
+            </div>
+          </div>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            attr.data-bs-target="#product-carousel{{ i }}"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            attr.data-bs-target="#product-carousel{{ i }}"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+
+          <!-- carousel ends -->
+          <div class="text-center p-1">
+            <p class="p-0 m-0">
+              <small> {{ product?.name }} </small>
+            </p>
+            <p class="p-0 m-0">
+              <small> {{ product?.price | currency : "INR" }} </small>
+            </p>
+          </div>
+          <div class="p-1">
+            <button class="btn btn-sm btn-outline-dark w-100">
+              View Details
+            </button>
+            <div class="d-flex justify-content-evenly pt-1">
+              <button class="btn-sm btn btn-outline-primary w-50">
+                add to cart
+              </button>
+              <button class="btn btn-sm btn-outline-warning w-50">
+                Buy Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-dark p-2">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        <li class="page-item disabled">
+          <button
+            [ngClass]="
+              currentpage === 1 ? 'btn-secondary disabled' : 'btn-primary'
+            "
+            class="btn btn-sm"
+          >
+            Previous
+          </button>
+        </li>
+
+        <li class="page-item">
+          <p class="bg-light border">{{ currentpage }}</p>
+        </li>
+
+        <li class="page-item">
+          <button
+            [ngClass]="
+              currentpage === totalPages
+                ? 'btn-secondary disabled'
+                : 'btn-primary'
+            "
+            class="btn btn-sm"
+          >
+            Next
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

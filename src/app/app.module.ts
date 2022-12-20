@@ -3,25 +3,25 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthRoutingModule } from './auth/auth-routing.module';
-import { AuthModule } from './auth/auth.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { UserModule } from './user/user.module';
-import { UserRoutingModule } from './user/user-routing.module';
+import { UserModule } from './seller/user/user.module';
+import { UserRoutingModule } from './seller/user/user-routing.module';
 import { HttpserviceService } from './Services/HttpServices/httpservice.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpinterceptorInterceptor } from './Services/HttpServices/httpinterceptor.interceptor';
 import { HeaderComponent } from './addOn/header/header.component';
 import { FooterComponent } from './addOn/footer/footer.component';
-import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
+import {
+  FacebookLoginProvider,
+  GoogleLoginProvider,
+  SocialAuthServiceConfig,
+} from '@abacritt/angularx-social-login';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AuthModule,
-    AuthRoutingModule,
     ReactiveFormsModule,
     UserModule,
     UserRoutingModule,
