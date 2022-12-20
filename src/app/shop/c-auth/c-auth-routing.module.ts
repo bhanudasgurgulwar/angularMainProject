@@ -4,8 +4,12 @@ import { CustomerloginComponent } from './customerlogin/customerlogin.component'
 import { CustomerregistrationComponent } from './customerregistration/customerregistration.component';
 
 const routes: Routes = [
-  { path: 'login', component: CustomerloginComponent },
-  {path:'registration',component:CustomerregistrationComponent},
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  {
+    path: 'login',
+    component: CustomerloginComponent,
+  },
+  { path: 'registration', component: CustomerregistrationComponent },
 ];
 
 @NgModule({
