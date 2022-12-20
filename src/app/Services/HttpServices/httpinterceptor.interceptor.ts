@@ -15,13 +15,25 @@ export class HttpinterceptorInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    console.log("inter call")
-    const req = request.clone({
-      setHeaders: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem('token')!)}`,
-      },
-    });
+    console.log('inter call');
+    if (request.url.includes('shop/') || request.url.includes('customers')) {
+      console.log('shop', request);
+      const req = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem('ctoken')!)}`,
+        },
+      });
+      return next.handle(req);
 
-    return next.handle(req);
+    } else {
+      console.log('seller', request);
+      const req = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem('token')!)}`,
+        },
+      });
+      return next.handle(req);
+    }
+
   }
 }

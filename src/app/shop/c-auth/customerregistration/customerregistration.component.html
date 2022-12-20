@@ -13,112 +13,263 @@
         class="w-100"
         alt=""
       />
-      <form class="my-3" [formGroup]="cRegistration" (ngSubmit)="customerRegistration()">
+      <form
+        class="my-3"
+        [formGroup]="cRegistration"
+        (ngSubmit)="customerRegistration()"
+      >
         <div class="row">
           <div class="col-md mb-1">
             <input
+              [class.is-invalid]="
+                cRegistration.get('name')?.invalid &&
+                cRegistration.get('name')?.touched
+              "
               type="text"
               class="form-control"
               id="formGroupExampleInput"
               placeholder="Full Name"
               formControlName="name"
-
             />
+            <div
+              *ngIf="
+                cRegistration.invalid && cRegistration.get('name')?.touched
+              "
+            >
+              <small
+                *ngIf="cRegistration.get('name')?.errors?.['required']"
+                class="text-danger"
+                >*Enter Your Name
+              </small>
+            </div>
           </div>
 
           <div class="col-md mb-1">
             <input
+              [class.is-invalid]="
+                cRegistration.get('email')?.invalid &&
+                cRegistration.get('email')?.touched
+              "
               type="email"
               class="form-control"
               id="formGroupExampleInput3"
               placeholder="Email"
               formControlName="email"
             />
+            <div
+              *ngIf="
+                cRegistration.invalid && cRegistration.get('email')?.touched
+              "
+            >
+              <small
+                *ngIf="cRegistration.get('email')?.errors?.['required']"
+                class="text-danger"
+                >*Enter Your Email
+              </small>
+              <small
+                *ngIf="cRegistration.get('email')?.errors?.['email']"
+                class="text-danger"
+                >*Enter valid Email
+              </small>
+            </div>
           </div>
         </div>
 
         <div class="row">
           <div class="col-md mb-1">
             <input
+              [class.is-invalid]="
+                cRegistration.get('password')?.invalid &&
+                cRegistration.get('password')?.touched
+              "
               type="password"
               class="form-control"
               id="formGroupExampleInput4"
               placeholder="Password"
               formControlName="password"
             />
+            <div
+              *ngIf="
+                cRegistration.invalid && cRegistration.get('password')?.touched
+              "
+            >
+              <small
+                *ngIf="cRegistration.get('password')?.errors?.['required']"
+                class="text-danger"
+                >*Password is required
+              </small>
+              <small
+                *ngIf="cRegistration.get('password')?.errors?.['pattern']"
+                class="text-danger"
+                >*atleast one chracter and one number is required
+              </small>
+            </div>
           </div>
           <div class="col-md mb-1">
             <input
+              [class.is-invalid]="
+                cRegistration.get('confirmPassword')?.invalid &&
+                cRegistration.get('confirmPassword')?.touched
+              "
               type="password"
               class="form-control"
               id="formGroupExampleInput5"
               placeholder="Confirm Password"
               formControlName="confirmPassword"
             />
+            <div
+              *ngIf="
+                cRegistration.invalid &&
+                cRegistration.get('confirmPassword')?.touched
+              "
+            >
+              <small
+                *ngIf="cRegistration.get('confirmPassword')?.errors?.['required']"
+                class="text-danger"
+                >*Comfirmation is required
+              </small>
+              <small
+                *ngIf="cRegistration?.errors?.['isMatch']"
+                class="text-danger"
+                >*Passwords must match
+              </small>
+            </div>
           </div>
         </div>
 
-        <hr>
-       <div formGroupName="address"  >
-        <p class="text-center fw-bolder"><small >Address Details</small></p>
-         <div class="row">
-          <div class="col-md mb-1">
-            <input
-              type="text"
-              class="form-control"
-              id="formGroupExampleInput2"
-              placeholder="Address"
-              formControlName="street"
-            />
+        <hr />
+        <div formGroupName="address">
+          <p class="text-center fw-bolder"><small>Address Details</small></p>
+          <div class="row">
+            <div class="col-md mb-1">
+              <input
+                [class.is-invalid]="
+                  cRegistration.get('address')?.get('street')?.invalid &&
+                  cRegistration.get('address')?.get('street')?.touched
+                "
+                type="text"
+                class="form-control form-control-sm"
+                id="formGroupExampleInput2"
+                placeholder="Address"
+                formControlName="street"
+              />
+              <div
+                *ngIf="
+                  cRegistration.invalid &&
+                  cRegistration.get('address')?.get('street')?.touched
+                "
+              >
+                <small
+                  *ngIf="cRegistration.get('address')?.get('street')?.errors?.['required']"
+                  class="text-danger"
+                  >*Enter Your Address
+                </small>
+              </div>
+            </div>
+            <div class="col-md mb-1">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                id="formGroupExampleInput6"
+                placeholder="Address line 2"
+                formControlName="addressLine2"
+              />
+            </div>
           </div>
-          <div class="col-md mb-1">
-            <input
-              type="text"
-              class="form-control"
-              id="formGroupExampleInput6"
-              placeholder="Address line 2"
-              formControlName="addressLine2"
-            />
+          <div class="row">
+            <div class="col-md">
+              <input
+                type="text"
+                [class.is-invalid]="
+                  cRegistration.get('address')?.get('state')?.invalid &&
+                  cRegistration.get('address')?.get('state')?.touched
+                "
+                class="form-control form-control-sm"
+                id="validationCustom01"
+                placeholder="state"
+                formControlName="state"
+                required
+              />
+
+              <div
+                *ngIf="
+                  cRegistration.get('address')?.invalid &&
+                  cRegistration.get('address')?.get('state')?.touched
+                "
+              >
+                <small
+                  *ngIf="cRegistration.get('address')?.get('state')?.errors?.['required']"
+                  class="text-danger"
+                  >*Enter Your State
+                </small>
+              </div>
+            </div>
+            <div class="col-md">
+              <input
+                type="text"
+                [class.is-invalid]="
+                  cRegistration.get('address')?.get('city')?.invalid &&
+                  cRegistration.get('address')?.get('city')?.touched
+                "
+                class="form-control form-control-sm"
+                id="validationCustom03"
+                placeholder="city"
+                formControlName="city"
+                required
+              />
+              <div
+                *ngIf="
+                  cRegistration.invalid &&
+                  cRegistration.get('address')?.get('city')?.touched
+                "
+              >
+                <small
+                  *ngIf="cRegistration.get('address')?.get('city')?.errors?.['required']"
+                  class="text-danger"
+                  >*Enter Your city
+                </small>
+              </div>
+            </div>
+            <div class="col-md">
+              <input
+                type="text"
+                [class.is-invalid]="
+                  cRegistration.get('address')?.get('pin')?.invalid &&
+                  cRegistration.get('address')?.get('pin')?.touched
+                "
+                class="form-control form-control-sm"
+                id="validationCustom05"
+                placeholder="Pincode"
+                formControlName="pin"
+                required
+              />
+              <div
+                *ngIf="
+                  cRegistration.invalid &&
+                  cRegistration.get('address')?.get('pin')?.touched
+                "
+              >
+                <small
+                  *ngIf="cRegistration.get('address')?.get('pin')?.errors?.['required']"
+                  class="text-danger"
+                  >*Pincode is required
+                </small>
+                <small
+                  *ngIf="cRegistration.get('address')?.get('pin')?.errors?.['minlength']
+                  || cRegistration.get('address')?.get('pin')?.errors?.['maxlength']"
+                  class="text-danger"
+                  >*Enter Valid Pin-Code
+                </small>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="row">
-         
-          <div class="col-md">
-             <input
-              type="text"
-              class="form-control"
-              id="validationCustom01"
-              placeholder="state"
-              formControlName="state"
-              required
-            />
-            <div class="invalid-feedback">Please select a valid state.</div>
-          </div>
-           <div class="col-md">
-            <input
-              type="text"
-              class="form-control"
-              id="validationCustom03"
-              placeholder="city"
-              formControlName="city"
-              required
-            />
-            <div class="invalid-feedback">Please provide a valid city.</div>
-          </div>
-          <div class="col-md">
-            <input
-              type="text"
-              class="form-control"
-              id="validationCustom05"
-              placeholder="Pincode"
-              formControlName="pin"
-              required
-            />
-            <div class="invalid-feedback">Please provide a valid zip.</div>
-          </div>
-        </div></div>
         <div class="m-2 text-center mt-3">
-          <button type="submit" class="btn btn-sm btn-primary w-50">
+          <button
+            type="submit"
+            class="btn btn-sm w-50"
+            [ngClass]="cRegistration.invalid ? 'disabled btn-secondary ' : 'btn-primary'"
+          >
             Sign-up
           </button>
         </div>

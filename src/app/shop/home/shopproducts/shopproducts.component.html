@@ -1,6 +1,11 @@
-<div class="d-flex justify-content-evenly bg-dark">
+<div class="d-flex justify-content-evenly border bg-dark p-2">
   <div>
-    <select class="form-select" aria-label="Default select example">
+    <select
+      #limit
+      class="form-select form-select-sm"
+      aria-label="Default select example"
+      (change)="handleLimit(limit.value)"
+    >
       <option selected value="10">10</option>
       <option value="12">12</option>
       <option value="8">8</option>
@@ -8,7 +13,12 @@
     </select>
   </div>
   <div>
-    <select class="form-select" aria-label="Default select example">
+    <select
+      #sortBy
+      class="form-select form-select-sm"
+      aria-label="Default select example"
+      (change)="handleSortBy(sortBy.value)"
+    >
       <option selected value="">All</option>
       <option value="name">Name</option>
       <option value="price">Price</option>
@@ -18,12 +28,12 @@
 
   <form class="d-flex" role="search">
     <input
-      class="form-control me-2"
+      class="form-control form-control-sm me-2"
       type="search"
       placeholder="Search"
       aria-label="Search"
     />
-    <button class="btn btn-outline-success" type="submit">Search</button>
+    <button class="btn btn-sm btn-outline-success" type="submit">Search</button>
   </form>
 </div>
 
@@ -33,111 +43,120 @@
       class="popout-effect m-3 rounded"
       *ngFor="let product of allProducts; let i = index"
     >
-      <div class="rounded bg-light" style="width: 200px">
-        <!-- <div>
-          <img
-            style="height: 200px"
-            class="w-100"
-            src="{{ product?.images[0]?.url }}"
-            alt=""
-          />
-        </div> -->
-        <!-- carousel -->
+      <div
+        class="p-2 rounded"
+        style="
+          background-color: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(100px);
+        "
+      >
         <div
-          class="carousel slide carousel-inner"
-          id="product-carousel{{ i }}"
-          data-bs-ride="carousel"
+          class="rounded p-2"
+          style="width: 220px; backdrop-filter: blur(10px)"
         >
-          <div class="carousel-inner">
-            <div
-              *ngFor="let image of product.images; let index = index"
-              class="carousel-item"
-              [ngClass]="index === 0 ? 'active' : null"
-            >
-              <img
-                [src]="image.url"
-                class="w-100"
-                style="height: 200px"
-                alt="..."
-              />
+          <!-- carousel -->
+          <div
+            class="carousel slide carousel-inner w-100"
+            id="product-carousel{{ i }}"
+            data-bs-ride="carousel"
+          >
+            <div class="carousel-inner">
+              <div
+                *ngFor="let image of product.images; let index = index"
+                class="carousel-item"
+                [ngClass]="index === 0 ? 'active' : null"
+              >
+                <img
+                  [src]="image.url"
+                  class="w-100"
+                  style="height: 150px"
+                  alt="products"
+                />
+              </div>
+              <button
+                class="carousel-control-prev"
+                type="button"
+                attr.data-bs-target="#product-carousel{{ i }}"
+                data-bs-slide="prev"
+              >
+                <span
+                  class="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button
+                class="carousel-control-next"
+                type="button"
+                attr.data-bs-target="#product-carousel{{ i }}"
+                data-bs-slide="next"
+              >
+                <span
+                  class="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Next</span>
+              </button>
             </div>
-          </div>
-          <button
-            class="carousel-control-prev"
-            type="button"
-            attr.data-bs-target="#product-carousel{{ i }}"
-            data-bs-slide="prev"
-          >
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button
-            class="carousel-control-next"
-            type="button"
-            attr.data-bs-target="#product-carousel{{ i }}"
-            data-bs-slide="next"
-          >
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
 
-          <!-- carousel ends -->
-          <div class="text-center p-1">
-            <p class="p-0 m-0">
-              <small> {{ product?.name }} </small>
-            </p>
-            <p class="p-0 m-0">
-              <small> {{ product?.price | currency : "INR" }} </small>
-            </p>
-          </div>
-          <div class="p-1">
-            <button class="btn btn-sm btn-outline-dark w-100">
-              View Details
-            </button>
-            <div class="d-flex justify-content-evenly pt-1">
-              <button class="btn-sm btn btn-outline-primary w-50">
-                add to cart
+            <!-- carousel ends -->
+            <div class="text-center p-1">
+              <p class="p-0 m-0">
+                <small> {{ product?.name }} </small>
+              </p>
+              <p class="p-0 m-0">
+                <small> {{ product?.price | currency : "INR" }} </small>
+              </p>
+            </div>
+            <div class="p-1">
+              <button class="btn btn-sm btn-outline-dark w-100">
+                View Details
               </button>
-              <button class="btn btn-sm btn-outline-warning w-50">
-                Buy Now
-              </button>
+              <div class="d-flex justify-content-between p-1">
+                <button class="btn-sm btn btn-warning mx-1 w-50">
+                  add to cart
+                </button>
+                <button class="btn btn-sm btn-primary w-50">
+                  Buy Now
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="bg-dark p-2">
-    <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-center">
-        <li class="page-item disabled">
-          <button
-            [ngClass]="
-              currentpage === 1 ? 'btn-secondary disabled' : 'btn-primary'
-            "
-            class="btn btn-sm"
-          >
-            Previous
-          </button>
-        </li>
+</div>
+<div class="sticky-bottom bg-dark p-1 d-flex justify-content-center">
+  <nav aria-label="Page navigation example  ">
 
-        <li class="page-item">
-          <p class="bg-light border">{{ currentpage }}</p>
-        </li>
+    <!-- <div> -->
+        <button
+          [ngClass]="
+            currentpage === 1 ? 'btn-secondary disabled' : 'btn-primary'
+          "
+          class="btn btn-sm"
+          (click)="handlePrev()"
+        >
+          Previous
+        </button>
 
-        <li class="page-item">
-          <button
-            [ngClass]="
-              currentpage === totalPages
-                ? 'btn-secondary disabled'
-                : 'btn-primary'
-            "
-            class="btn btn-sm"
-          >
-            Next
-          </button>
-        </li>
-      </ul>
-    </nav>
-  </div>
+
+   
+        <span class="btn btn-sm bg-light border">{{ currentpage }}</span>
+
+     
+        <button
+          [ngClass]="
+            currentpage === totalPages
+              ? 'btn-secondary disabled'
+              : 'btn-primary'
+          "
+          class="btn btn-sm"
+          (click)="handleNext()"
+        >
+          Next
+        </button>
+      <!-- </div> -->
+  </nav>
 </div>

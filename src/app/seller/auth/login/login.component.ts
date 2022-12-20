@@ -33,7 +33,7 @@ export class LoginComponent {
       .subscribe(
         (res: any) => {
           console.log(res);
-          this.loaclser.setLoacl(res?.token);
+          this.loaclser.setLoacl('token',res?.token);
           this.router.navigate(['/seller/user']);
         },
         (err) => {
