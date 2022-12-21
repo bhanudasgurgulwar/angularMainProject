@@ -24,5 +24,8 @@ export class HttpserviceService {
   deleteData(finalUrl: string, id: string) {
     return this.http.delete(`${this.BaseURl + finalUrl}:${id}`);
   }
-  
+
+  putData(finalUrl: string, id: string | null, data: object) {
+    return this.http.put(`${this.BaseURl + finalUrl}${id}`, data);
+  }
 }
