@@ -16,6 +16,7 @@ import {
   GoogleLoginProvider,
   SocialAuthServiceConfig,
 } from '@abacritt/angularx-social-login';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent],
@@ -25,6 +26,7 @@ import {
     ReactiveFormsModule,
     UserModule,
     UserRoutingModule,
+    StoreModule.forRoot({}, {}),
   ],
   providers: [
     {

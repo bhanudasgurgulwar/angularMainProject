@@ -1,0 +1,26 @@
+<div class="container">
+  <div
+    *ngFor="let item of cartProducts; let i = index"
+    class="d-flex m-2 p-2 border-bottom"
+  >
+    <div class="ms-5">
+      <img
+        style="height: 150px; width: 150px"
+        src="{{ item.img }}"
+        alt="productImage"
+      />
+    </div>
+    <div class="p-2 px-4">
+      <h1>{{ i + 1 }} {{ item.name }}</h1>
+      <p>{{ item.description }}</p>
+      <div class="d-flex justify-content-between">
+        <div>
+          <button class="btn btn-secondary">-</button>
+          <small class="btn">1</small>
+          <button class="btn btn-secondary">+</button>
+        </div>
+        <p>{{ item.price | currency : "INR" }}</p>
+      </div>
+    </div>
+  </div>
+</div>

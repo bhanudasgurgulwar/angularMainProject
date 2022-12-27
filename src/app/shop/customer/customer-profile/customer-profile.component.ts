@@ -22,6 +22,7 @@ export class CustomerProfileComponent implements OnInit {
   customerAddress: any;
   addressUpdateFlag = false;
   idToEditChanges!: string;
+  profilePicture: any;
 
   updateProfile = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -94,6 +95,16 @@ export class CustomerProfileComponent implements OnInit {
       );
   }
 
+  deleteCustomerAddress(id: string) {
+    this.http.deleteData('/customers/address/', id).subscribe({
+      next: (res: any) => {
+        alert('delete address');
+        console.log(res);
+      },
+      error: (err) => console.log(err),
+    });
+  }
+
   CustomerLogout() {
     this.local.removeLoacal('ctoken');
     this.router.navigate(['']);
@@ -110,8 +121,7 @@ export class CustomerProfileComponent implements OnInit {
         state: add?.state,
         pin: add?.pin,
       });
-    }
-    else{
+    } else {
       this.addressUpdates.reset();
     }
   }
@@ -134,5 +144,32 @@ export class CustomerProfileComponent implements OnInit {
         },
         (err) => console.log(err)
       );
+  }
+
+  getImage(event: any) {
+    console.log(event.target.files[0]);
+    this.profilePicture = event.target.files[0];
+  }
+
+  updateProfilePicture(file: any) {
+    let fb = new FormData();
+    fb.append('picture', this.profilePicture);
+    this.http.postData('/customers/profile-picture', fb).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.getCustomerProfile();
+      },
+      error: (err) => console.log(err),
+    });
+  }
+
+  deleteProfilePicture() {
+    this.http.deleteData('/customers/profile-picture', '').subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.getCustomerProfile();
+      },
+      error: (err) => console.log(err),
+    });
   }
 }

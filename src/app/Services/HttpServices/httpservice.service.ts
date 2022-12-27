@@ -21,8 +21,12 @@ export class HttpserviceService {
     return this.http.patch(`${this.BaseURl + finalUrl}${id}`, data);
   }
 
-  deleteData(finalUrl: string, id: string) {
-    return this.http.delete(`${this.BaseURl + finalUrl}:${id}`);
+  deleteData(finalUrl: string, id: string | null) {
+    let newId = '';
+    if (id !== '') {
+      newId = ':' + id;
+    }
+    return this.http.delete(`${this.BaseURl + finalUrl}${newId}`);
   }
 
   putData(finalUrl: string, id: string | null, data: object) {

@@ -1,14 +1,33 @@
 <div class="d-flex justify-content-center align-items-center vh-100">
-  <div class="d-flex flex-column flex-md-row">
+  <div class="d-flex flex-column flex-md-row container">
     <div
-      class="p-2 m-2 w-100 rounded d-flex flex-column"
+      class="p-2 m-2 w-100 rounded"
       style="
         background-color: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(50px);
       "
     >
       <div class="p-1 my-2 rounded" style="backdrop-filter: blur(10px)">
-        <div class="text-end mb-3">
+        <div class="d-flex justify-content-between mb-3">
+          <div class="dropdown">
+            <button
+              class="btn btn-outline-dark btn-sm dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="bi bi-gear-fill"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              <li>
+                <a class="dropdown-item" routerLink="/customer/change-password"
+                  >Change Password</a
+                >
+              </li>
+              <li><a class="dropdown-item">Another action</a></li>
+              <li><a class="dropdown-item">Something else here</a></li>
+            </ul>
+          </div>
           <button
             (click)="CustomerLogout()"
             class="btn btn-sm btn-outline-danger p-0 px-1"
@@ -16,148 +35,251 @@
             <i class="bi bi-box-arrow-right"></i>
           </button>
         </div>
-        <div class="d-flex justify-content-center align-content-center">
-          <div class="position-relative">
-            <img
-              src="{{ customerProfile?.picture }}"
-              class=""
-              alt="profile picture"
-              style="width: 100px; border: 2px solid rgb(232, 201, 201)"
-            />
-            <span
-              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary"
-            >
-              <i class="bi bi-pencil"></i>
-            </span>
-          </div>
-        </div>
-
-        <div *ngIf="!profileEdit">
-          <div
-            class="bg-light m-1 p-2 mt-2 rounded"
-            style="font-family: 'Montserrat', sans-serif"
-          >
-            <h6 class="fw-bolder text-center">{{ customerProfile?.name }}</h6>
-            <h6 class="fw-bolder text-center">{{ customerProfile?.email }}</h6>
-            <div class="d-flex justify-content-evenly p-2">
-              <button
-                class="btn btn-sm btn-outline-warning"
-                (click)="toggleEdit(true)"
-              >
-                <i class="bi bi-person-fill-gear"></i> Profile
-              </button>
-              <button class="btn btn-sm btn-outline-danger">
-                <i class="bi bi-person-x-fill"></i> User
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="p-1" *ngIf="profileEdit">
-        <form (ngSubmit)="updateProfileDetails()" [formGroup]="updateProfile">
-          <div class="input-group input-group-sm mb-2">
-            <input
-              type="text"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="inputGroup-sizing-sm"
-              placeholder="email"
-              formControlName="email"
-            />
-          </div>
-          <div class="input-group input-group-sm mb-2">
-            <input
-              type="text"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="inputGroup-sizing-sm"
-              placeholder="name"
-              formControlName="name"
-            />
-          </div>
-          <div class="p-1 d-flex justify-content-evenly">
-            <div>
-              <button class="btn btn-sm btn-primary" type="submit">
-                Update
-              </button>
-            </div>
-            <div>
-              <button
-                type="button"
-                class="btn btn-sm btn-secondary"
-                (click)="toggleEdit(false)"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-    <div class="d-flex flex-column">
-      <div
-        class="p-2 m-2 w-100 rounded"
-        style="
-          background-color: rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(50px);
-        "
-      >
-        <div class="p-1 rounded" style="backdrop-filter: blur(10px)">
-          <div
-            class="top bg-light d-flex justify-content-between align-content-center rounded p-1 px-3"
-          >
-            <h4 class="mx-2">Address</h4>
-            <div class="px-2">
-              <button
-                class="btn btn-sm btn-outline-primary"
+        <div class="">
+          <div class="d-flex justify-content-center align-content-center">
+            <div class="position-relative">
+              <img
+                src="{{ customerProfile?.picture }}"
+                class=""
+                alt="profile picture"
+                style="
+                  width: 100px;
+                  height: 100px;
+                  border: 2px solid rgb(232, 201, 201);
+                  object-fit: cover;
+                "
+              />
+              <span
                 data-bs-toggle="modal"
-                data-bs-target="#staticBackdropaddAddress"
-                (click)="toggleAddressUpdateFlag(true, '')"
+                data-bs-target="#staticBackdropEditProfilePicture"
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary"
               >
-                <i class="bi bi-house-add-fill"></i>_Address
-              </button>
+                <i class="bi bi-pencil"></i>
+              </span>
             </div>
           </div>
-          <div>
-            <div *ngFor="let address of customerAddress">
-              <div class="bg-light w-100 rounded p-1 m-1">
-                <div class="text-end">
-                  <button
-                    class="btn btn-sm btn-warning mx-1"
-                    data-bs-toggle="modal"
-                    data-bs-target="#staticBackdropaddAddress"
-                    (click)="toggleAddressUpdateFlag(false, address)"
-                  >
-                    <i class="bi bi-pencil-square"></i>
-                  </button>
-                  <button class="btn btn-sm btn-outline-danger">
-                    <i class="bi bi-house-x-fill"></i>
-                  </button>
-                </div>
-                <h6>{{ address?.street }},{{ address?.addressLine2 }}</h6>
-                <p class="m-0">{{ address?.state }},{{ address?.city }},</p>
-                <p class="m-0">{{ address?.pin }}</p>
+
+          <div *ngIf="!profileEdit" class="">
+            <div
+              class="bg-light m-1 p-2 mt-2 rounded"
+              style="font-family: 'Montserrat', sans-serif"
+            >
+              <h6 class="fw-bolder text-center">{{ customerProfile?.name }}</h6>
+              <h6 class="fw-bolder text-center">
+                {{ customerProfile?.email }}
+              </h6>
+              <div class="d-flex justify-content-evenly p-2">
+                <button
+                  class="btn btn-sm btn-outline-warning"
+                  (click)="toggleEdit(true)"
+                >
+                  <i class="bi bi-person-fill-gear"></i> Profile
+                </button>
+                <button class="btn btn-sm btn-outline-danger">
+                  <i class="bi bi-person-x-fill"></i> User
+                </button>
               </div>
             </div>
           </div>
         </div>
+        <div class="p-3 rounded bg-light" *ngIf="profileEdit">
+          <form (ngSubmit)="updateProfileDetails()" [formGroup]="updateProfile">
+            <div class="input-group input-group-sm mb-2">
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="email"
+                formControlName="email"
+              />
+            </div>
+            <div class="input-group input-group-sm mb-2">
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="name"
+                formControlName="name"
+              />
+            </div>
+            <div class="p-1 d-flex justify-content-evenly">
+              <div>
+                <button class="btn btn-sm btn-primary" type="submit">
+                  Update
+                </button>
+              </div>
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-secondary"
+                  (click)="toggleEdit(false)"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
-      <div
-        class="p-2 m-2 w-100 rounded"
-        style="
-          background-color: rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(50px);
-        "
-      >
-        <div class="p-1 rounded" style="backdrop-filter: blur(10px)">
-          hello 3
+    </div>
+
+    <div
+      class="p-2 m-2 w-100 rounded"
+      style="
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(50px);
+      "
+    >
+      <div class="p-1 rounded" style="backdrop-filter: blur(10px)">
+        <!-- add herer -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link active"
+              id="home-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#home-tab-pane"
+              type="button"
+              role="tab"
+              aria-controls="home-tab-pane"
+              aria-selected="true"
+            >
+              Home
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="profile-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#profile-tab-pane"
+              type="button"
+              role="tab"
+              aria-controls="profile-tab-pane"
+              aria-selected="false"
+            >
+              Address
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link text-"
+              id="contact-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#contact-tab-pane"
+              type="button"
+              role="tab"
+              aria-controls="contact-tab-pane"
+              aria-selected="false"
+            >
+              Orders
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="disabled-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#disabled-tab-pane"
+              type="button"
+              role="tab"
+              aria-controls="disabled-tab-pane"
+              aria-selected="false"
+              disabled
+            >
+              Disabled
+            </button>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div
+            class="tab-pane fade show active"
+            id="home-tab-pane"
+            role="tabpanel"
+            aria-labelledby="home-tab"
+            tabindex="0"
+          >
+            ...
+          </div>
+          <div
+            class="tab-pane fade"
+            id="profile-tab-pane"
+            role="tabpanel"
+            aria-labelledby="profile-tab"
+            tabindex="0"
+          >
+            <div
+              class="top bg-light d-flex justify-content-between align-content-center rounded p-1 px-3 mb-2"
+            >
+              <h4 class="mx-2">Address</h4>
+              <div class="px-2">
+                <button
+                  class="btn btn-sm btn-outline-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdropaddAddress"
+                  (click)="toggleAddressUpdateFlag(true, '')"
+                >
+                  <i class="bi bi-house-add-fill"></i>_Address
+                </button>
+              </div>
+            </div>
+            <div class="overflow-auto">
+              <div *ngFor="let address of customerAddress; let i = index">
+                <div class="bg-light w-100 rounded mt-1 p-1">
+                  <div class="d-flex justify-content-between">
+                    <small>Address {{ i + 1 }}</small>
+                    <div>
+                      <button
+                        class="btn btn-sm btn-warning mx-1"
+                        data-bs-toggle="modal"
+                        data-bs-target="#staticBackdropaddAddress"
+                        (click)="toggleAddressUpdateFlag(false, address)"
+                      >
+                        <i class="bi bi-pencil-square"></i>
+                      </button>
+                      <button
+                        (click)="deleteCustomerAddress(address?._id)"
+                        class="btn btn-sm btn-outline-danger"
+                      >
+                        <i class="bi bi-house-x-fill"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <hr />
+                  <h6>{{ address?.street }},{{ address?.addressLine2 }}</h6>
+                  <p class="m-0">{{ address?.state }},{{ address?.city }},</p>
+                  <p class="m-0">{{ address?.pin }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="contact-tab-pane"
+            role="tabpanel"
+            aria-labelledby="contact-tab"
+            tabindex="0"
+          >
+            ...
+          </div>
+          <div
+            class="tab-pane fade"
+            id="disabled-tab-pane"
+            role="tabpanel"
+            aria-labelledby="disabled-tab"
+            tabindex="0"
+          >
+            ...
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal Address -->
 <div
   class="modal fade"
   id="staticBackdropaddAddress"
@@ -317,6 +439,76 @@
             </button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Profile Picture -->
+<div
+  class="modal modal-lg fade"
+  id="staticBackdropEditProfilePicture"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h4>
+        <button
+          type="button"
+          class="btn-close btn-sm"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex justify-content-center align-content-center">
+          <div class="">
+            <img
+              src="{{ customerProfile?.picture }}"
+              class=""
+              alt="profile picture"
+              style="
+                width: 100px;
+                height: 100px;
+                object-fit: cover;
+                border: 2px solid rgb(232, 201, 201);
+              "
+            />
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="formFile" class="form-label"
+            >Select profile Picture</label
+          >
+          <input
+            #picture
+            class="form-control"
+            (change)="getImage($event)"
+            type="file"
+            id="formFile"
+          />
+        </div>
+        <div class="d-flex justify-content-between">
+          <button
+            class="btn btn-primary"
+            data-bs-dismiss="modal"
+            (click)="updateProfilePicture(picture)"
+          >
+            update images
+          </button>
+          <button
+            class="btn btn-danger"
+            data-bs-dismiss="modal"
+            (click)="deleteProfilePicture()"
+          >
+            Remove Profile
+          </button>
+        </div>
       </div>
     </div>
   </div>

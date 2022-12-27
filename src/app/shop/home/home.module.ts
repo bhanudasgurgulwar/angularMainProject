@@ -4,16 +4,14 @@ import { CommonModule } from '@angular/common';
 import { HomeRoutingModule } from './home-routing.module';
 import { GetproductsComponent } from './getproducts/getproducts.component';
 import { ShopproductsComponent } from './shopproducts/shopproducts.component';
-
+import { AddToCartComponent } from './add-to-cart/add-to-cart.component';
 
 @NgModule({
   declarations: [
     GetproductsComponent,
-    ShopproductsComponent
+    ShopproductsComponent,
+    AddToCartComponent,
   ],
-  imports: [
-    CommonModule,
-    HomeRoutingModule
-  ]
+  imports: [CommonModule, HomeRoutingModule],
 })
-export class HomeModule { }
+export class HomeModule {}
