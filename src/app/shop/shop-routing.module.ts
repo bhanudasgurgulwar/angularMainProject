@@ -7,7 +7,7 @@ import {
 // import { isCustomerLoginGuard } from '../Guard/authguard.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '', pathMatch: 'full' },
+  // { path: '', redirectTo: '', pathMatch: 'full' },
   {
     path: '',
     loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),

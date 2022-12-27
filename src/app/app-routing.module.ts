@@ -5,7 +5,7 @@ import { isLoginGuard, isLogoutGuard } from './Guard/authguard.guard';
 const routes: Routes = [
     // {
     //   path: '',
-    //   redirectTo: '/shop',
+    //   redirectTo: '',
     //   pathMatch: 'full',
     // },
   {

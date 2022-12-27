@@ -17,6 +17,7 @@ import {
   SocialAuthServiceConfig,
 } from '@abacritt/angularx-social-login';
 import { StoreModule } from '@ngrx/store';
+import { _customerReducer } from './cart-Store/cart.reducer';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent],
@@ -26,7 +27,7 @@ import { StoreModule } from '@ngrx/store';
     ReactiveFormsModule,
     UserModule,
     UserRoutingModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({ cart: _customerReducer }, {}),
   ],
   providers: [
     {

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { addToCart } from 'src/app/cart-Store/cart.action';
 import { HttpserviceService } from 'src/app/Services/HttpServices/httpservice.service';
 
 @Component({
@@ -7,7 +9,7 @@ import { HttpserviceService } from 'src/app/Services/HttpServices/httpservice.se
   styleUrls: ['./shopproducts.component.scss'],
 })
 export class ShopproductsComponent implements OnInit {
-  constructor(private http: HttpserviceService) {}
+  constructor(private http: HttpserviceService,private store:Store) {}
 
   allProducts: any;
   images: any;
@@ -46,33 +48,33 @@ export class ShopproductsComponent implements OnInit {
 
   handleSortBy(sortBy: any) {
     console.log(sortBy);
-  if(sortBy==='')
-    this.sortBy='';
-  else{
-      this.sortBy=`&sortBy=${sortBy}`
-    this.getAllProducts(this.createQuery());
-  }
-  
-
+    if (sortBy === '') this.sortBy = '';
+    else {
+      this.sortBy = `&sortBy=${sortBy}`;
+      this.getAllProducts(this.createQuery());
+    }
   }
 
   handleLimit(limit: any) {
     console.log(limit);
     this.limit = `&limit=${limit}`;
     this.getAllProducts(this.createQuery());
-
   }
 
   handlePrev() {
     this.currentpage--;
-    this.page=`&page=${this.currentpage}`
+    this.page = `&page=${this.currentpage}`;
     this.getAllProducts(this.createQuery());
-
   }
 
   handleNext() {
-     this.currentpage++;
-     this.page = `&page=${this.currentpage}`;
-     this.getAllProducts(this.createQuery());
+    this.currentpage++;
+    this.page = `&page=${this.currentpage}`;
+    this.getAllProducts(this.createQuery());
   }
-}
+
+  addToCart(product: any) {
+    product.count=1;
+    this.store.dispatch(addToCart({product:product}))
+  }
+} 
