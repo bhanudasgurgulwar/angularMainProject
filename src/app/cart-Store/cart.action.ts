@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { products } from './cart.reducer';
+import { Product } from './cart.state';
+// import { Products } from './cart.state';
 
 //   interface Product {
 //     name: string;
@@ -8,13 +9,22 @@ import { products } from './cart.reducer';
 //     image: string;
 //   }
 
-export const addToCart = createAction('addToCart', props<{ product: any }>());
+export const addToCart = createAction(
+  'addToCart',
+  props<{ product: Product }>()
+);
 export const removeFromCart = createAction(
   'removeFromCart',
-  props<{ product: any }>()
+  props<{ product: Product }>()
 );
-export const increCount = createAction('increCount', props<{ product: any }>());
-export const decreCount = createAction('decreCount', props<{ product: any }>());
+export const increCount = createAction(
+  'increCount',
+  props<{ product: Product }>()
+);
+export const decreCount = createAction(
+  'decreCount',
+  props<{ product: Product }>()
+);
 
 export const clearCart = createAction('clearCart');
 

@@ -46,6 +46,7 @@ export class ShopproductsComponent implements OnInit {
     );
   }
 
+
   handleSortBy(sortBy: any) {
     console.log(sortBy);
     if (sortBy === '') this.sortBy = '';
