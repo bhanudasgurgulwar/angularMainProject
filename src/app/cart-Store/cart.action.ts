@@ -26,6 +26,10 @@ export const decreCount = createAction(
   props<{ product: Product }>()
 );
 
+
+export const sumUpTotalAmount = createAction('sumUpTotalAmount');
+
+
 export const clearCart = createAction('clearCart');
 
 export const addToBuyNow = createAction('addToBuyNow', props<any>());

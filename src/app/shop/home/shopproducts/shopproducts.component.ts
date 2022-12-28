@@ -34,7 +34,6 @@ export class ShopproductsComponent implements OnInit {
   getAllProducts(query: string) {
     this.http.getData(query).subscribe(
       (res: any) => {
-        console.log(res);
         this.allProducts = res.results;
         this.totalPages = res?.totalPages;
         this.currentpage = res?.page;
@@ -75,7 +74,6 @@ export class ShopproductsComponent implements OnInit {
   }
 
   addToCart(product: any) {
-    product.count=1;
     this.store.dispatch(addToCart({product:product}))
   }
 } 

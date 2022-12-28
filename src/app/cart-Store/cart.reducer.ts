@@ -5,22 +5,9 @@ import {
   decreCount,
   increCount,
   removeFromCart,
+  sumUpTotalAmount,
 } from './cart.action';
 import { initialState, Product } from './cart.state';
-
-// const cartAndBuyNowReducer = createReducer(
-//   initialState,
-//   on(addToCart, (state: any) => {
-//     return {
-//       ...state,
-//       cart: [...state.cart, {}],
-//     };
-//   })
-// );
-
-// export function counterReducer(state: any, action: any) {
-//   return cartAndBuyNowReducer(state, action);
-// }
 
 export interface products {
   id: string;
@@ -40,10 +27,32 @@ export const _customerReducer = createReducer(
       cart: [],
     };
   }),
-  on(addToCart, (state, action) => {
+  on(sumUpTotalAmount, (state) => {
+    let tempAmount = 0;
+    for (let i = 0; i < state.cart.length; i++) {
+      tempAmount += state.cart[i].subTotal;
+    }
     return {
       ...state,
-      cart: [...state.cart, action.product],
+      totalAmount: tempAmount,
+    };
+  }),
+  on(addToCart, (state, action) => {
+    const temp = structuredClone(state.cart);
+
+    const found = temp.findIndex((i) => i._id === action.product._id);
+    if (found >= 0) {
+      alert('already added to cart');
+    } else {
+      const objClone = structuredClone(action.product);
+      objClone.count = 1;
+      objClone.subTotal = objClone.price;
+      temp.push(objClone);
+    }
+
+    return {
+      ...state,
+      cart: temp,
     };
   }),
   on(removeFromCart, (state, action) => {
@@ -64,7 +73,8 @@ export const _customerReducer = createReducer(
 
     const found = temp.findIndex((i) => i._id == action.product._id);
     if (found > -1) {
-      console.log(++temp[found].count);
+      ++temp[found].count;
+      temp[found].subTotal = temp[found].count * temp[found].price;
     }
     return {
       ...state,
@@ -74,15 +84,14 @@ export const _customerReducer = createReducer(
   on(decreCount, (state, action) => {
     const temp = structuredClone(state.cart);
 
-
     const found = temp.findIndex((i) => i._id == action.product._id);
-    
+
     if (found > -1) {
-      if(temp[found].count<=1){
-        temp.splice(found,1)
-      }
-      else{
+      if (temp[found].count <= 1) {
+        temp.splice(found, 1);
+      } else {
         --temp[found].count;
+        temp[found].subTotal = temp[found].count * temp[found].price;
       }
     }
     return {

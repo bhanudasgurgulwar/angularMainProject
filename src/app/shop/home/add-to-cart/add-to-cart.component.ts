@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
+  clearCart,
   decreCount,
   increCount,
   removeFromCart,
+  sumUpTotalAmount,
 } from 'src/app/cart-Store/cart.action';
 
 @Component({
@@ -13,31 +15,35 @@ import {
 })
 export class AddToCartComponent implements OnInit {
   cartProducts: any;
-  totalPrice: number=0;
+  totalPrice: number = 0;
 
-  constructor(private store: Store<{ cart: { cart: any } }>) {
+  constructor(private store: Store<{ cart: { cart: any,totalAmount :any} }>) {
     this.store.select('cart').subscribe((data) => {
       this.cartProducts = data.cart;
-      for (let a = 0; a < this.cartProducts.length; a++) {
-        console.log(typeof this.cartProducts[a].price);
-        this.totalPrice += (
-          this.cartProducts[a].count * this.cartProducts[a].price
-        );
-      }
-      console.log(this.totalPrice);
+      this.totalPrice = data.totalAmount;
     });
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.store.dispatch(sumUpTotalAmount())
+  }
 
   increseProductCount(product: any) {
     this.store.dispatch(increCount({ product: product }));
+    this.store.dispatch(sumUpTotalAmount());
+
   }
 
   decreseProductCount(product: any) {
     this.store.dispatch(decreCount({ product: product }));
+    this.store.dispatch(sumUpTotalAmount());
   }
 
   removeFromCart(product: any) {
     this.store.dispatch(removeFromCart({ product: product }));
+  }
+
+  emptyCart() {
+    alert('your cart will get empty');
+    this.store.dispatch(clearCart());
   }
 }

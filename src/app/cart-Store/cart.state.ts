@@ -1,11 +1,13 @@
 export const initialState: customerState = {
   cart: [],
   buyNow: [],
+  totalAmount: 0,
 };
 
 export interface customerState {
   cart: Product[];
   buyNow: Product[];
+  totalAmount: number;
 }
 
 export interface Product {
@@ -23,4 +25,5 @@ export interface Product {
   createdAt: string;
   updatedAt: string;
   count: number;
+  subTotal: number;
 }
