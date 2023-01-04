@@ -6,9 +6,10 @@ import { CustomerProfileComponent } from './customer-profile/customer-profile.co
 import { CustomerUpdateProfileComponent } from './customer-update-profile/customer-update-profile.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CustomerChangePasswordComponent } from './customer-change-password/customer-change-password.component';
+import { OrdersComponent } from './orders/orders.component';
 
 @NgModule({
-  declarations: [CustomerProfileComponent, CustomerUpdateProfileComponent, CustomerChangePasswordComponent],
+  declarations: [CustomerProfileComponent, CustomerUpdateProfileComponent, CustomerChangePasswordComponent, OrdersComponent],
   imports: [CommonModule, CustomerRoutingModule,ReactiveFormsModule],
 })
 export class CustomerModule {}

@@ -23,6 +23,7 @@ export class CustomerProfileComponent implements OnInit {
   addressUpdateFlag = false;
   idToEditChanges!: string;
   profilePicture: any;
+  customerOrders:any;
 
   updateProfile = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -43,6 +44,7 @@ export class CustomerProfileComponent implements OnInit {
   ngOnInit(): void {
     this.getCustomerProfile();
     this.getCustomerAddress();
+    this.getCustomerOrders();
   }
 
   getCustomerProfile() {
@@ -53,6 +55,15 @@ export class CustomerProfileComponent implements OnInit {
       },
       (err) => console.log(err)
     );
+  }
+
+  getCustomerOrders(){
+    this.http.getData('/shop/orders').subscribe({
+      next:res=>{
+        console.log(res)
+        this.customerOrders=res;
+      },error:err=>console.log(err)
+    })
   }
 
   getCustomerAddress() {
@@ -172,4 +183,7 @@ export class CustomerProfileComponent implements OnInit {
       error: (err) => console.log(err),
     });
   }
+
+
+
 }

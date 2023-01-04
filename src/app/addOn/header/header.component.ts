@@ -22,19 +22,13 @@ export class HeaderComponent implements OnInit {
 
 
   sendVerfiactionMail(){
-    this.http.postData('/auth/send-verification-email', '').subscribe(
-      (res) => {
-        console.log(res);
+    this.http.postData('/auth/send-verification-email', '').subscribe({
+      next: res=>{
+        console.log(res)
       },
-      (err) => {
-        console.log(err);
-      }
-    );
+      error: err=>console.log(err)
+    });
+
   }
-
-
-    
-
-
 
 }

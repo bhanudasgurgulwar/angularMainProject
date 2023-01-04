@@ -24,7 +24,7 @@ export interface Product {
   deleted: boolean;
   createdAt: string;
   updatedAt: string;
-  count: number;
+  qty: number;
   subTotal: number;
 }
 

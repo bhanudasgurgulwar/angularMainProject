@@ -45,7 +45,7 @@ export const _customerReducer = createReducer(
       alert('already added to cart');
     } else {
       const objClone = structuredClone(action.product);
-      objClone.count = 1;
+      objClone.qty = 1;
       objClone.subTotal = objClone.price;
       temp.push(objClone);
     }
@@ -73,8 +73,8 @@ export const _customerReducer = createReducer(
 
     const found = temp.findIndex((i) => i._id == action.product._id);
     if (found > -1) {
-      ++temp[found].count;
-      temp[found].subTotal = temp[found].count * temp[found].price;
+      ++temp[found].qty;
+      temp[found].subTotal = temp[found].qty * temp[found].price;
     }
     return {
       ...state,
@@ -87,11 +87,11 @@ export const _customerReducer = createReducer(
     const found = temp.findIndex((i) => i._id == action.product._id);
 
     if (found > -1) {
-      if (temp[found].count <= 1) {
+      if (temp[found].qty <= 1) {
         temp.splice(found, 1);
       } else {
-        --temp[found].count;
-        temp[found].subTotal = temp[found].count * temp[found].price;
+        --temp[found].qty;
+        temp[found].subTotal = temp[found].qty * temp[found].price;
       }
     }
     return {
@@ -104,3 +104,5 @@ export const _customerReducer = createReducer(
 export function customerReducer(state: any, action: any) {
   return _customerReducer(state, action);
 }
+
+

@@ -7,6 +7,7 @@ import {
   removeFromCart,
   sumUpTotalAmount,
 } from 'src/app/cart-Store/cart.action';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-add-to-cart',

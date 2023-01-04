@@ -18,6 +18,7 @@ import {
 } from '@abacritt/angularx-social-login';
 import { StoreModule } from '@ngrx/store';
 import { _customerReducer } from './cart-Store/cart.reducer';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent],
@@ -28,6 +29,7 @@ import { _customerReducer } from './cart-Store/cart.reducer';
     UserModule,
     UserRoutingModule,
     StoreModule.forRoot({ cart: _customerReducer }, {}),
+    BrowserAnimationsModule,
   ],
   providers: [
     {
