@@ -15,13 +15,13 @@ const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () =>
-    import('./c-auth/c-auth.module').then((m) => m.CAuthModule),
+      import('./c-auth/c-auth.module').then((m) => m.CAuthModule),
     canActivate: [isCustomerLogoutGuard],
   },
   {
     path: 'customer',
     loadChildren: () =>
-    import('./customer/customer.module').then((m) => m.CustomerModule),
+      import('./customer/customer.module').then((m) => m.CustomerModule),
     canActivate: [isCustomerLoginGuard],
   },
 ];

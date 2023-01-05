@@ -6,7 +6,7 @@ export const initialState: customerState = {
 
 export interface customerState {
   cart: Product[];
-  buyNow: Product[];
+  buyNow: checkOutProduct[];
   totalAmount: number;
 }
 
@@ -28,4 +28,10 @@ export interface Product {
   subTotal: number;
 }
 
-// vh,mjjghj,gjrandpm comment
+export interface checkOutProduct {
+  productId:string,
+  name:string,
+  price:number,
+  qty:number,
+  subTotal:number
+}

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
+  addToBuyNow,
   clearCart,
   decreCount,
   increCount,
   removeFromCart,
   sumUpTotalAmount,
 } from 'src/app/cart-Store/cart.action';
-import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-add-to-cart',
@@ -18,20 +18,19 @@ export class AddToCartComponent implements OnInit {
   cartProducts: any;
   totalPrice: number = 0;
 
-  constructor(private store: Store<{ cart: { cart: any,totalAmount :any} }>) {
+  constructor(private store: Store<{ cart: { cart: any; totalAmount: any } }>) {
     this.store.select('cart').subscribe((data) => {
       this.cartProducts = data.cart;
       this.totalPrice = data.totalAmount;
     });
   }
   ngOnInit(): void {
-    this.store.dispatch(sumUpTotalAmount())
+    this.store.dispatch(sumUpTotalAmount());
   }
 
   increseProductCount(product: any) {
     this.store.dispatch(increCount({ product: product }));
     this.store.dispatch(sumUpTotalAmount());
-
   }
 
   decreseProductCount(product: any) {
@@ -46,5 +45,9 @@ export class AddToCartComponent implements OnInit {
   emptyCart() {
     alert('your cart will get empty');
     this.store.dispatch(clearCart());
+  }
+
+  addItemsToBuyNow() {
+    this.store.dispatch(addToBuyNow())
   }
 }

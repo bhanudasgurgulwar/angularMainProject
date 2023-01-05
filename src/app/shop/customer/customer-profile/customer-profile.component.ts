@@ -62,6 +62,7 @@ export class CustomerProfileComponent implements OnInit {
       next:res=>{
         console.log(res)
         this.customerOrders=res;
+        console.log(this.customerOrders)
       },error:err=>console.log(err)
     })
   }

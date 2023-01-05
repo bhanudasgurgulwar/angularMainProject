@@ -43,7 +43,7 @@
     <h1>Total Payable Amount</h1>
     <h1>{{ totalPrice | currency : "INR" }}</h1>
   </div>
-  <button class="btn " style="background-color: rgb(129, 89, 15);">buy now </button>
+  <button class="btn btn-primary " (click)="addItemsToBuyNow()" routerLink="/customer/order" >Buy Now </button>
 </div>
 <div class="container" *ngIf="cartProducts.length === 0">
   <h1 class="text-center">Your Cart is Empty</h1>

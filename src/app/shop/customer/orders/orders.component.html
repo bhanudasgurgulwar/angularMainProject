@@ -1,1 +1,67 @@
-<p>orders works!</p>
+<!-- *ngIf="buyingProducts.length > 0" -->
+<div>
+  <mat-stepper #stepper>
+    <mat-step>
+      <div
+        class="px-5 p-2"
+        *ngFor="let product of buyingProducts; let i = index"
+      >
+        <h3>{{ i + 1 }} {{ product?.productId }}</h3>
+        <div class="d-flex justify-content-between">
+          <p>{{ product?.name }}</p>
+          <p>{{ product?.qty }}</p>
+          <p>{{ product?.subTotal | currency : "INR" }}</p>
+        </div>
+      </div>
+      <h2 class="text-end fw-bolder">
+        Total Amount : {{ totalAmount | currency : "INR" }}
+      </h2>
+      <div>
+        <button mat-button mat-raised-button color="primary" matStepperNext>
+          Next
+        </button>
+      </div>
+    </mat-step>
+    <mat-step label="Fill out your address">
+      <div class="d-flex justify-content-evenly">
+        <div class="">
+          <mat-radio-group #address aria-label="Select an address">
+            <div class="" *ngFor="let addr of allAddrress; let i = index">
+              <mat-radio-button (change)="getAddress($event)" [value]="addr"
+                ><h3 class="fw-bolder">Address {{ i + 1 }}</h3>
+              </mat-radio-button>
+              <div>
+                <h3 class="fw-bold">{{ addr?.street }}</h3>
+                <p>{{ addr.addressLine2 }}</p>
+                <p>{{ addr?.city }}</p>
+                <p>{{ addr?.state }}</p>
+                <p>{{ addr?.pin }}</p>
+              </div>
+            </div>
+          </mat-radio-group>
+        </div>
+      </div>
+      <div>
+        <button mat-button mat-raised-button matStepperPrevious>Back</button>
+        <button mat-button mat-raised-button color="primary" matStepperNext>
+          Next
+        </button>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+
+      <p>You are now done.</p>
+      <p>Click on 'Confirm Order' to place Order...</p>
+      <div>
+        <button mat-button mat-raised-button matStepperPrevious>Back</button>
+        <button mat-button mat-raised-button color="primary" (click)="placeOrder()">Confirm Order</button>
+      </div>
+    </mat-step>
+  </mat-stepper>
+</div>
+
+<div *ngIf="buyingProducts.length === 0" class="text-center">
+  <h1>You Cart is empty , Browse more</h1>
+  <button mat-raised-button color="warn" routerLink="">Shop</button>
+</div>

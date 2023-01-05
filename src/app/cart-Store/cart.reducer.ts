@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import {
+  addToBuyNow,
   addToCart,
   clearCart,
   decreCount,
@@ -55,6 +56,21 @@ export const _customerReducer = createReducer(
       cart: temp,
     };
   }),
+  on(addToBuyNow, (state) => {
+    let tempBuy = state.cart.map((i) => {
+      return {
+        productId: i._id,
+        name: i.name,
+        price: i.price,
+        qty: i.qty,
+        subTotal: i.subTotal,
+      };
+    });
+    return {
+      ...state,
+      buyNow: tempBuy,
+    };
+  }),
   on(removeFromCart, (state, action) => {
     const entriesClone = structuredClone(state.cart);
     const found = entriesClone.find((i) => {
@@ -104,5 +120,3 @@ export const _customerReducer = createReducer(
 export function customerReducer(state: any, action: any) {
   return _customerReducer(state, action);
 }
-
-

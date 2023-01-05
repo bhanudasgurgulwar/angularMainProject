@@ -32,5 +32,5 @@ export const sumUpTotalAmount = createAction('sumUpTotalAmount');
 
 export const clearCart = createAction('clearCart');
 
-export const addToBuyNow = createAction('addToBuyNow', props<any>());
+export const addToBuyNow = createAction('addToBuyNow');
 export const removeFromBuyNow = createAction('removeFromBuyNow');
