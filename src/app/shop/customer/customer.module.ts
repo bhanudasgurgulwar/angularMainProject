@@ -11,13 +11,15 @@ import { OrdersComponent } from './orders/orders.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
-
+import { OrderDetailsComponent } from './order-details/order-details.component';
+import {MatCardModule} from '@angular/material/card';
 @NgModule({
   declarations: [
     CustomerProfileComponent,
     CustomerUpdateProfileComponent,
     CustomerChangePasswordComponent,
     OrdersComponent,
+    OrderDetailsComponent,
   ],
   imports: [
     CommonModule,
@@ -26,7 +28,8 @@ import { MatRadioModule } from '@angular/material/radio';
     MatStepperModule,
     MatFormFieldModule,
     MatButtonModule,
-    MatRadioModule
+    MatRadioModule,
+    MatCardModule
   ],
 })
 export class CustomerModule {}
