@@ -4,6 +4,7 @@ import { CustomerChangePasswordComponent } from './customer-change-password/cust
 import { CustomerProfileComponent } from './customer-profile/customer-profile.component';
 import { CustomerUpdateProfileComponent } from './customer-update-profile/customer-update-profile.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
+import { OrderHistoryComponent } from './order-history/order-history.component';
 import { OrdersComponent } from './orders/orders.component';
 
 const routes: Routes = [
@@ -12,7 +13,8 @@ const routes: Routes = [
   { path: 'profile-update', component: CustomerUpdateProfileComponent },
   { path: 'change-password', component: CustomerChangePasswordComponent },
   { path: 'order', component: OrdersComponent },
-  { path: 'order-details', component: OrderDetailsComponent },
+  { path: 'order-history', component: OrderHistoryComponent },
+  { path: 'order-details/:id', component: OrderDetailsComponent },
 ];
 
 @NgModule({

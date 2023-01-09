@@ -1,0 +1,101 @@
+<h1 mat-dialog-title>Make Payment</h1>
+<div mat-dialog-content class="">
+  <form [formGroup]="payment" (ngSubmit)="makeOrderPayment()">
+    <div class="px-2">
+      <mat-form-field class="example-full-width w-100">
+        <mat-label>Name on Card</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="nameOnCard"
+          placeholder="Ex. pat@example.com"
+        />
+        <mat-error
+          *ngIf="
+            emailFormControl.hasError('email') &&
+            !emailFormControl.hasError('required')
+          "
+        >
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="emailFormControl.hasError('required')">
+          Name is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="px-2">
+      <mat-form-field class="example-full-width w-100">
+        <mat-label>Card Number</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="cardNumber"
+          placeholder="Ex. pat@example.com"
+        />
+        <mat-error
+          *ngIf="
+            emailFormControl.hasError('email') &&
+            !emailFormControl.hasError('required')
+          "
+        >
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="emailFormControl.hasError('required')">
+          Card Number is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <div class="col-md">
+        <mat-form-field class="example-full-width w-100">
+          <mat-label>Expiry Date</mat-label>
+          <input
+            matInput
+            formControlName="expiry"
+            placeholder="Ex. pat@example.com"
+          />
+          <mat-error
+            *ngIf="
+              emailFormControl.hasError('email') &&
+              !emailFormControl.hasError('required')
+            "
+          >
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="emailFormControl.hasError('required')">
+            Expiry Date is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md">
+        <mat-form-field class="example-full-width w-100">
+          <mat-label>CVV</mat-label>
+          <input
+            type="number"
+            matInput
+            formControlName="cvv"
+            placeholder="Ex. pat@example.com"
+          />
+          <mat-error
+            *ngIf="
+              emailFormControl.hasError('minlength') ||
+              emailFormControl.hasError('maxlength')
+            "
+          >
+            Enter valid CVV
+          </mat-error>
+          <mat-error *ngIf="emailFormControl.hasError('required')">
+            CVV is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="mt-2">
+      <button class="px-4" mat-raised-button color="primary">Pay</button>
+    </div>
+  </form>
+</div>
+
+<div class="border-top" mat-dialog-actions>
+  <button [disabled]="payment.invalid" mat-button mat-dialog-close>Close</button>
+</div>

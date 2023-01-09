@@ -1,20 +1,91 @@
 <div class="container">
-    <div>
-        <mat-card>
-            <mat-card-content> <h1 class="text-center fw-bolder">Order Details</h1></mat-card-content>
-          </mat-card>
-    </div>
-   <br>
-   <div>
+  <div>
     <mat-card>
+      <mat-card-content>
+        <h1 class="text-center fw-bolder">Order Details</h1></mat-card-content
+      >
+    </mat-card>
+  </div>
+  <br />
+  <div>
+    <div *ngFor="let order of orderDetails">
+      <mat-card class="example-card">
         <mat-card-header>
-          <mat-card-title>Actions Buttons</mat-card-title>
-          <mat-card-subtitle>End</mat-card-subtitle>
+          <mat-card-title>
+            {{ order?._id }}
+            <span class="badge bg-success">{{ order?.status }}</span>
+          </mat-card-title>
+          <mat-card-subtitle
+            >Payment status
+            <span class="badge bg-success">{{
+              order?.paymentStatus
+            }}</span></mat-card-subtitle
+          >
         </mat-card-header>
+        <hr />
+        <mat-card-content>
+          <div class="px-2">
+            <mat-card-subtitle>Product Details : </mat-card-subtitle>
+            <br />
+            <div *ngFor="let item of order?.items; let j = index">
+              <p class="text-decoration-underline">
+                {{ j + 1 }}. {{ item?.name }}
+              </p>
+              <div class="d-flex justify-content-between">
+                <P>
+                  <span>price : </span> {{ item?.price | currency : "INR" }}</P
+                >
+                <P>
+                  <span>Quantity : </span>
+                  {{ item?.qty }}</P
+                >
+                <p class="fw-bold">{{ item?.subTotal | currency : "INR" }}</p>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <p>delivery fee :</p>
+              <p class="fw-bold">
+                {{ order?.deliveryFee | currency : "INR" }}
+              </p>
+            </div>
+            <div class="d-flex justify-content-between">
+              <p class="fw-bolder">Total :</p>
+              <p class="fw-bolder">
+                {{ order?.total | currency : "INR" }}
+              </p>
+            </div>
+          </div>
+          <br />
+          <mat-card-subtitle>Address Details : </mat-card-subtitle>
+          <div>
+            <mat-accordion>
+              <mat-expansion-panel
+                (opened)="panelOpenState = true"
+                (closed)="panelOpenState = false"
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title> {{order?.address?.street}} </mat-panel-title>
+                  <mat-panel-description>
+                     {{ panelOpenState ? "Hide Details" : " View Details" }}
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                
+                <address class="fw-bold">
+                  <p>{{order?.address?.street}}, {{order?.address?.addressLine2}} </p>
+                  <p>{{order?.address?.city}}, {{order?.address?.state}} </p>
+                  <p>{{order?.address?.pin}}</p>
+                </address>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </mat-card-content>
         <mat-card-actions align="end">
-          <button mat-button>LIKE</button>
-          <button mat-button>SHARE</button>
+          <button mat-stroked-button color="warn" (click)="cancelOrder()">Cancel Order</button>
+          <button class="mx-1" mat-raised-button color="primary" (click)="openDialog()"  >
+            Make Payment
+          </button>
         </mat-card-actions>
       </mat-card>
-   </div>
+    </div>
+  </div>
 </div>

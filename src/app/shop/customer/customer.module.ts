@@ -13,6 +13,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import {MatCardModule} from '@angular/material/card';
+import { OrderHistoryComponent } from './order-history/order-history.component';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { MakePaymentComponent } from './make-payment/make-payment.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatInputModule} from '@angular/material/input';
+
+
+
 @NgModule({
   declarations: [
     CustomerProfileComponent,
@@ -20,6 +28,8 @@ import {MatCardModule} from '@angular/material/card';
     CustomerChangePasswordComponent,
     OrdersComponent,
     OrderDetailsComponent,
+    OrderHistoryComponent,
+    MakePaymentComponent,
   ],
   imports: [
     CommonModule,
@@ -27,9 +37,12 @@ import {MatCardModule} from '@angular/material/card';
     ReactiveFormsModule,
     MatStepperModule,
     MatFormFieldModule,
+    MatExpansionModule,
     MatButtonModule,
     MatRadioModule,
-    MatCardModule
+    MatCardModule,
+    MatInputModule,
+    MatDialogModule
   ],
 })
 export class CustomerModule {}

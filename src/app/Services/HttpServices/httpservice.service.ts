@@ -32,4 +32,8 @@ export class HttpserviceService {
   putData(finalUrl: string, id: string | null, data: object) {
     return this.http.put(`${this.BaseURl + finalUrl}${id}`, data);
   }
+
+  patchData(finalUrl: string, id: string){
+    return this.http.patch(`${this.BaseURl + finalUrl}${id}`,null);
+  }
 }
