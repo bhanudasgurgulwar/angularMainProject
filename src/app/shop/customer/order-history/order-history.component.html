@@ -1,32 +1,82 @@
 <div class="container">
-    <div>
-        <mat-card>
-            <mat-card-content> <h1 class="text-center fw-bolder">Order Details</h1></mat-card-content>
-          </mat-card>
-    </div>
-   <br>
-   <div *ngFor="let order of customerOrders;let i = index">
+  <div class="mb-3">
     <mat-card>
-        <mat-card-header>
-          <mat-card-title>
-            {{i+1}}:-{{order._id}}
-            <span class="badge bg-success">{{order?.status}}</span>
-          </mat-card-title>
-          <mat-card-subtitle>
-          <div>
-            {{order?.address?.street}}
-          </div>  
-          <p>payment status:- <span class="badge bg-success">{{order?.paymentStatus}}</span> </p>
-          <div *ngFor="let product of order?.items;let j = index">
-           {{j+1}} {{product.name}}
+      <mat-card-content>
+        <div class="d-flex justify-content-between align-items-baseline">
+          <h1 class=" fw-bolder">Order History</h1>
+          <div> 
+            <mat-paginator 
+              [length]="orderTotalPages"
+              [pageSize]="orderLimit"
+              [pageSizeOptions]="[1,2,3]"
+              aria-label="Select page"
+              (page) = "getDataByPagination($event)"
+            >
+            </mat-paginator>
           </div>
-          </mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-actions align="end">
-          <button class="mx-1" mat-raised-button>LIKE</button>
-          <button class="mx-1" mat-raised-button color="primary" (click)="orderDetailsPage(order?._id)" > Order Details </button>
-        </mat-card-actions>
-      </mat-card>
-   </div>
-</div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
 
+  <div class="my-2" *ngFor="let order of customerOrders; let i = index">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          {{ i + 1 }}:-{{ order._id }}
+          <span
+            [ngClass]="
+              order?.status === 'Confirmed'
+                ? 'bg-success'
+                : order?.status === 'Pending'
+                ? 'bg-warning'
+                : 'bg-danger'
+            "
+            class="badge"
+            >{{ order?.status }}</span
+          >
+        </mat-card-title>
+        <mat-card-subtitle>
+          <div>
+            {{ order?.address?.street }}
+          </div>
+          <p>
+            payment status:-
+            <span
+              [ngClass]="
+                order?.paymentStatus === 'Paid' ? 'bg-success' : 'bg-warning'
+              "
+              class="badge"
+              >{{ order?.paymentStatus }}</span
+            >
+          </p>
+          <div *ngFor="let product of order?.items; let j = index">
+            {{ j + 1 }} {{ product.name }}
+          </div>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-actions align="end">
+        <button
+          [ngClass]="
+            order?.paymentStatus === 'Paid' || order?.status === 'Cancelled'
+              ? 'd-none'
+              : ''
+          "
+          class="mx-1"
+          mat-raised-button
+          (click)="makePayemnet(order?._id)"
+        >
+          Make Payment
+        </button>
+        <button
+          class="mx-1"
+          mat-raised-button
+          color="primary"
+          (click)="orderDetailsPage(order?._id)"
+        >
+          Order Details
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

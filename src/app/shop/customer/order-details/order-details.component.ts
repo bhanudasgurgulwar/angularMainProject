@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { HttpserviceService } from 'src/app/Services/HttpServices/httpservice.service';
 import Swal from 'sweetalert2';
-import {MatDialog} from '@angular/material/dialog';
-import { MakePaymentComponent } from '../make-payment/make-payment.component';
+
 
 @Component({
   selector: 'app-order-details',
@@ -15,15 +14,10 @@ export class OrderDetailsComponent implements OnInit {
   orderId: any;
   orderDetails: any;
 
-
-  openDialog() {
-    this.dialog.open(MakePaymentComponent)
-  }
-
   constructor(
     private http: HttpserviceService,
     private actRoute: ActivatedRoute,
-    private dialog:MatDialog
+    private router:Router,
   ) {}
   ngOnInit(): void {
     this.actRoute.params.subscribe((param: any) => {
@@ -63,5 +57,9 @@ export class OrderDetailsComponent implements OnInit {
         Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
       }
     });
+  }
+
+  proceedToPayment(){
+    this.router.navigate([`/user/confirm-payment/${this.orderId}`])
   }
 }

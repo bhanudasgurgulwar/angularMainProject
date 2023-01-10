@@ -1,6 +1,8 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpserviceService } from 'src/app/Services/HttpServices/httpservice.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-make-payment',
@@ -8,14 +10,18 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./make-payment.component.scss'],
 })
 export class MakePaymentComponent implements OnInit {
-  orderId!:string;
-  constructor(private fb: FormBuilder,private actRoute:ActivatedRoute) {}
+  orderId!: string;
+  constructor(
+    private fb: FormBuilder,
+    private actRoute: ActivatedRoute,
+    private http: HttpserviceService,
+    private router: Router
+  ) {}
   ngOnInit(): void {
-    this.actRoute.params.subscribe((params:any)=>{
-      this.orderId=params?.id;
-
-    })
-    console.log(this.orderId)
+    this.actRoute.params.subscribe((params: any) => {
+      this.orderId = params?.id;
+    });
+    console.log(this.orderId);
   }
 
   payment = this.fb.group({
@@ -28,13 +34,23 @@ export class MakePaymentComponent implements OnInit {
     ],
   });
 
-
-  makeOrderPayment(){
-    console.log(this.payment.value)
+  makeOrderPayment() {
+    console.log(this.payment.value);
+    this.http
+      .putData('/shop/orders/confirm/', this.orderId, this.payment.value)
+      .subscribe({
+        next: (res: any) => {
+          console.log(res);
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: res?.message,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          this.router.navigate(['/user/order-history']);
+        },
+        error: (err) => console.log(err),
+      });
   }
-
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
 }

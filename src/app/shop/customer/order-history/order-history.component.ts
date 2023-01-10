@@ -9,6 +9,9 @@ import { HttpserviceService } from 'src/app/Services/HttpServices/httpservice.se
 })
 export class OrderHistoryComponent implements OnInit {
   customerOrders: any;
+  orderTotalPages!:number;
+  orderCurrent!:number;
+  orderLimit!:number;
   constructor(private http: HttpserviceService, private router: Router) {}
   ngOnInit(): void {
     this.getCustomerOrders();
@@ -18,14 +21,38 @@ export class OrderHistoryComponent implements OnInit {
     this.http.getData('/shop/orders').subscribe({
       next: (res: any) => {
         console.log(res);
+        this.orderTotalPages=res.totalPages;
+        this.orderLimit = res.limit;
         this.customerOrders = res.results;
-        console.log(this.customerOrders);
+        
       },
       error: (err) => console.log(err),
     });
   }
 
   orderDetailsPage(id: string) {
-    this.router.navigate([`/customer/order-details/${id}`]);
+    this.router.navigate([`/user/order-details/${id}`]);
+  }
+
+  makePayemnet(id: string) {
+    this.router.navigate([`/user/confirm-payment/${id}`]);
+  }
+
+  getDataByPagination(event:any){
+    console.log(event)
+    const limit=event.pageSize
+    const page=event.pageIndex+1
+    console.log(limit,page,event.previousPageIndex)
+this.http.getData(`/shop/orders?limit=${limit}&page=${page}`).subscribe({
+  next: (res: any) => {
+    console.log(res);
+    this.orderTotalPages = res.totalPages;
+    this.orderLimit = res.limit;
+    this.customerOrders = res.results;
+  console.log(this.orderTotalPages)
+  },
+  error: (err) => console.log(err),
+});
+    
   }
 }

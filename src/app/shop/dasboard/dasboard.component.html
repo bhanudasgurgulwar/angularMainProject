@@ -1,1 +1,51 @@
-
+<div class="shadow">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid align-items-baseline">
+      <div>
+        <a class="text-decoration-none text-black" routerLink="/shop/">Shop</a>
+      </div>
+      <div class="px-2 align-items-baseline">
+        <button
+          class="me-1"
+          mat-icon-button
+          color="warn"
+          aria-label="Cart"
+          routerLink="/shop/cart"
+        >
+          <i class="bi bi-cart4"></i>
+        </button>
+        <!-- <button
+          mat-icon-button
+          color="accent"
+          aria-label="Example icon button with a menu icon"
+        >
+          <mat-icon>favorite</mat-icon>
+        </button> -->
+        <button
+          class="me-1"
+          mat-icon-button
+          color="accent"
+          aria-label="User"
+          [matMenuTriggerFor]="menu"
+        >
+          <i class="bi bi-person"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+</div>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item routerLink="/user/profile">
+    <mat-icon>profile</mat-icon>
+    <span>Profile</span>
+  </button>
+  <button mat-menu-item routerLink="/user/order-history">
+    <mat-icon>order</mat-icon>
+    <span>Order History</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>password</mat-icon>
+    <span>Change Password</span>
+  </button>
+</mat-menu>
+<router-outlet></router-outlet>

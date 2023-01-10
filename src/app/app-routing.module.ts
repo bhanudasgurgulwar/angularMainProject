@@ -3,11 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { isLoginGuard, isLogoutGuard } from './Guard/authguard.guard';
 
 const routes: Routes = [
-    // {
-    //   path: '',
-    //   redirectTo: '',
-    //   pathMatch: 'full',
-    // },
   {
     path: 'seller',
     loadChildren: () =>
@@ -17,10 +12,10 @@ const routes: Routes = [
     path: '',
     loadChildren: () => import('./shop/shop.module').then((m) => m.ShopModule),
   },
-  {
-    path: '**',
-    redirectTo: '/seller/auth',
-  },
+  // {
+  //   path: '**',
+  //   redirectTo: '/',
+  // },
 ];
 
 @NgModule({

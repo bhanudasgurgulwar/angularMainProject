@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { isLoginGuard } from '../Guard/authguard.guard';
+import { SellerDashboardComponent } from './seller-dashboard/seller-dashboard.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/seller/auth', pathMatch: 'full' },
@@ -9,17 +10,26 @@ const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    canActivate: [isLoginGuard],
-    path: 'user',
-    loadChildren: () =>
-      import('../seller/user/user.module').then((m) => m.UserModule),
+    path: '',
+    component: SellerDashboardComponent,
+    children: [
+      {
+        canActivate: [isLoginGuard],
+        path: 'user',
+        loadChildren: () =>
+          import('../seller/user/user.module').then((m) => m.UserModule),
+      },
+      {
+        canActivate: [isLoginGuard],
+        path: 'products',
+        loadChildren: () =>
+          import('../seller/produts/produts.module').then(
+            (m) => m.ProdutsModule
+          ),
+      },
+    ],
   },
-  {
-    canActivate: [isLoginGuard],
-    path: 'products',
-    loadChildren: () =>
-      import('../seller/produts/produts.module').then((m) => m.ProdutsModule),
-  },
+
   // {
   //   path: '**',
   //   redirectTo: '/auth',

@@ -1,7 +1,4 @@
 <div class="d-flex justify-content-between m-2 px-5">
-  <button class="btn btn-warning" routerLink="">
-    <i class="bi bi-bag">Continue shopping</i>
-  </button>
   <button class="btn btn-danger" (click)="emptyCart()">
     <i class="bi bi-cart-x">Clear cart</i>
   </button>
@@ -43,7 +40,7 @@
     <h1>Total Payable Amount</h1>
     <h1>{{ totalPrice | currency : "INR" }}</h1>
   </div>
-  <button class="btn btn-primary " (click)="addItemsToBuyNow()" routerLink="/customer/order" >Buy Now </button>
+  <button class="btn btn-primary " (click)="addItemsToBuyNow()" routerLink="/user/order" >Buy Now </button>
 </div>
 <div class="container" *ngIf="cartProducts.length === 0">
   <h1 class="text-center">Your Cart is Empty</h1>

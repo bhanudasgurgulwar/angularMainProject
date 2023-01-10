@@ -13,13 +13,27 @@
         <mat-card-header>
           <mat-card-title>
             {{ order?._id }}
-            <span class="badge bg-success">{{ order?.status }}</span>
+            <span
+              [ngClass]="
+                order?.status === 'Confirmed'
+                  ? 'bg-success'
+                  : order?.status === 'Pending'
+                  ? 'bg-warning'
+                  : 'bg-danger'
+              "
+              class="badge"
+              >{{ order?.status }}</span
+            >
           </mat-card-title>
           <mat-card-subtitle
             >Payment status
-            <span class="badge bg-success">{{
-              order?.paymentStatus
-            }}</span></mat-card-subtitle
+            <span
+              [ngClass]="
+                order?.paymentStatus === 'Paid' ? 'bg-success' : 'bg-warning'
+              "
+              class="badge"
+              >{{ order?.paymentStatus }}</span
+            ></mat-card-subtitle
           >
         </mat-card-header>
         <hr />
@@ -64,24 +78,46 @@
                 (closed)="panelOpenState = false"
               >
                 <mat-expansion-panel-header>
-                  <mat-panel-title> {{order?.address?.street}} </mat-panel-title>
+                  <mat-panel-title>
+                    {{ order?.address?.street }}
+                  </mat-panel-title>
                   <mat-panel-description>
-                     {{ panelOpenState ? "Hide Details" : " View Details" }}
+                    {{ panelOpenState ? "Hide Details" : " View Details" }}
                   </mat-panel-description>
                 </mat-expansion-panel-header>
-                
+
                 <address class="fw-bold">
-                  <p>{{order?.address?.street}}, {{order?.address?.addressLine2}} </p>
-                  <p>{{order?.address?.city}}, {{order?.address?.state}} </p>
-                  <p>{{order?.address?.pin}}</p>
+                  <p>
+                    {{ order?.address?.street }},
+                    {{ order?.address?.addressLine2 }}
+                  </p>
+                  <p>{{ order?.address?.city }}, {{ order?.address?.state }}</p>
+                  <p>{{ order?.address?.pin }}</p>
                 </address>
               </mat-expansion-panel>
             </mat-accordion>
           </div>
         </mat-card-content>
         <mat-card-actions align="end">
-          <button mat-stroked-button color="warn" (click)="cancelOrder()">Cancel Order</button>
-          <button class="mx-1" mat-raised-button color="primary" (click)="openDialog()"  >
+          <button
+            [ngClass]="order?.status === 'Cancelled' ? 'd-none' : ''"
+            mat-stroked-button
+            color="warn"
+            (click)="cancelOrder()"
+          >
+            Cancel Order
+          </button>
+          <button
+            [ngClass]="
+              order?.paymentStatus === 'Paid' || order?.status === 'Cancelled'
+                ? 'd-none'
+                : ''
+            "
+            class="mx-1"
+            mat-raised-button
+            color="primary"
+            (click)="proceedToPayment()"
+          >
             Make Payment
           </button>
         </mat-card-actions>

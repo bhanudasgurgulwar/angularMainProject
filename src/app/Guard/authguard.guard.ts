@@ -61,7 +61,7 @@ export class isCustomerLoginGuard implements CanActivate {
     if (this.auth.isCustomerLoggedIn()) {
       return true;
     }
-    this.router.navigate(['']);
+    this.router.navigate(['/shop']);
     return false;
   }
 }
@@ -81,7 +81,7 @@ export class isCustomerLogoutGuard implements CanActivate {
     if (!this.auth.isCustomerLoggedIn()) {
     return true;
     }
-    this.router.navigate(['']);
+    this.router.navigate(['/shop']);
     return false;
     
   }

@@ -134,138 +134,32 @@
     >
       <div class="p-1 rounded" style="backdrop-filter: blur(10px)">
         <!-- add herer -->
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button
-              class="nav-link active"
-              id="home-tab"
-              data-bs-toggle="tab"
-              data-bs-target="#home-tab-pane"
-              type="button"
-              role="tab"
-              aria-controls="home-tab-pane"
-              aria-selected="true"
-            >
-              Home
-            </button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button
-              class="nav-link"
-              id="profile-tab"
-              data-bs-toggle="tab"
-              data-bs-target="#profile-tab-pane"
-              type="button"
-              role="tab"
-              aria-controls="profile-tab-pane"
-              aria-selected="false"
-            >
-              Address
-            </button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button
-              class="nav-link text-"
-              id="contact-tab"
-              data-bs-toggle="tab"
-              data-bs-target="#contact-tab-pane"
-              type="button"
-              role="tab"
-              aria-controls="contact-tab-pane"
-              aria-selected="false"
-            >
-              Orders
-            </button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button
-              class="nav-link"
-              id="disabled-tab"
-              data-bs-toggle="tab"
-              data-bs-target="#disabled-tab-pane"
-              type="button"
-              role="tab"
-              aria-controls="disabled-tab-pane"
-              aria-selected="false"
-              disabled
-            >
-              Disabled
-            </button>
-          </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-          <div
-            class="tab-pane fade show active"
-            id="home-tab-pane"
-            role="tabpanel"
-            aria-labelledby="home-tab"
-            tabindex="0"
-          >
-            ...
-          </div>
-          <div
-            class="tab-pane fade"
-            id="profile-tab-pane"
-            role="tabpanel"
-            aria-labelledby="profile-tab"
-            tabindex="0"
-          >
-            <div
-              class="top bg-light d-flex justify-content-between align-content-center rounded p-1 px-3 mb-2"
-            >
-              <h4 class="mx-2">Address</h4>
-              <div class="px-2">
+        <h3 class="text-center bg-light rounded">Address</h3>
+        <div *ngFor="let address of customerAddress; let i = index">
+          <div class="bg-light w-100 rounded mt-1 p-1">
+            <div class="d-flex justify-content-between">
+              <small>Address {{ i + 1 }}</small>
+              <div>
                 <button
-                  class="btn btn-sm btn-outline-primary"
+                  class="btn btn-sm btn-warning mx-1"
                   data-bs-toggle="modal"
                   data-bs-target="#staticBackdropaddAddress"
-                  (click)="toggleAddressUpdateFlag(true, '')"
+                  (click)="toggleAddressUpdateFlag(false, address)"
                 >
-                  <i class="bi bi-house-add-fill"></i>_Address
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button
+                  (click)="deleteCustomerAddress(address?._id)"
+                  class="btn btn-sm btn-outline-danger"
+                >
+                  <i class="bi bi-house-x-fill"></i>
                 </button>
               </div>
             </div>
-            <div class="overflow-auto">
-              <div *ngFor="let address of customerAddress; let i = index">
-                <div class="bg-light w-100 rounded mt-1 p-1">
-                  <div class="d-flex justify-content-between">
-                    <small>Address {{ i + 1 }}</small>
-                    <div>
-                      <button
-                        class="btn btn-sm btn-warning mx-1"
-                        data-bs-toggle="modal"
-                        data-bs-target="#staticBackdropaddAddress"
-                        (click)="toggleAddressUpdateFlag(false, address)"
-                      >
-                        <i class="bi bi-pencil-square"></i>
-                      </button>
-                      <button
-                        (click)="deleteCustomerAddress(address?._id)"
-                        class="btn btn-sm btn-outline-danger"
-                      >
-                        <i class="bi bi-house-x-fill"></i>
-                      </button>
-                    </div>
-                  </div>
-                  <hr />
-                  <h6>{{ address?.street }},{{ address?.addressLine2 }}</h6>
-                  <p class="m-0">{{ address?.state }},{{ address?.city }},</p>
-                  <p class="m-0">{{ address?.pin }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="tab-pane fade"
-            id="contact-tab-pane"
-            role="tabpanel"
-            aria-labelledby="contact-tab"
-            tabindex="0"
-          >
-            <h3 class="fw-bold bg-light p-2 rounded" >Orders</h3>
-            <div>
-              
-            </div>
+            <hr />
+            <h6>{{ address?.street }},{{ address?.addressLine2 }}</h6>
+            <p class="m-0">{{ address?.state }},{{ address?.city }},</p>
+            <p class="m-0">{{ address?.pin }}</p>
           </div>
         </div>
       </div>

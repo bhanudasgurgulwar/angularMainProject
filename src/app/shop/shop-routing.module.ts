@@ -4,25 +4,33 @@ import {
   isCustomerLoginGuard,
   isCustomerLogoutGuard,
 } from '../Guard/authguard.guard';
+import { DasboardComponent } from './dasboard/dasboard.component';
 // import { isCustomerLoginGuard } from '../Guard/authguard.guard';
 
 const routes: Routes = [
-  // { path: '', redirectTo: '', pathMatch: 'full' },
+
   {
     path: '',
-    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+    component: DasboardComponent,
+    children: [
+      {
+        path: 'shop',
+        loadChildren: () =>
+          import('./home/home.module').then((m) => m.HomeModule),
+      },
+      {
+        path: 'user',
+        loadChildren: () =>
+          import('./customer/customer.module').then((m) => m.CustomerModule),
+        canActivate: [isCustomerLoginGuard],
+      },
+    ],
   },
   {
     path: 'auth',
     loadChildren: () =>
       import('./c-auth/c-auth.module').then((m) => m.CAuthModule),
     canActivate: [isCustomerLogoutGuard],
-  },
-  {
-    path: 'customer',
-    loadChildren: () =>
-      import('./customer/customer.module').then((m) => m.CustomerModule),
-    canActivate: [isCustomerLoginGuard],
   },
 ];
 
