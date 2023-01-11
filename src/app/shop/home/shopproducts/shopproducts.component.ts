@@ -9,7 +9,15 @@ import { HttpserviceService } from 'src/app/Services/HttpServices/httpservice.se
   styleUrls: ['./shopproducts.component.scss'],
 })
 export class ShopproductsComponent implements OnInit {
-  constructor(private http: HttpserviceService,private store:Store) {}
+  cartProducts: any;
+  constructor(
+    private http: HttpserviceService,
+    private store: Store<{ cart: { cart: any } }>
+  ) {
+    this.store.select('cart').subscribe((data) => {
+      this.cartProducts = data.cart;
+    });
+  }
 
   allProducts: any;
   images: any;
@@ -32,19 +40,18 @@ export class ShopproductsComponent implements OnInit {
   }
 
   getAllProducts(query: string) {
-    this.http.getData(query).subscribe(
-      (res: any) => {
+    this.http.getData(query).subscribe({
+      next: (res: any) => {
         this.allProducts = res.results;
         this.totalPages = res?.totalPages;
         this.currentpage = res?.page;
         this.totalPages = res?.totalPages;
       },
-      (err) => {
+      error: (err) => {
         console.log(err);
-      }
-    );
+      },
+    });
   }
-
 
   handleSortBy(sortBy: any) {
     console.log(sortBy);
@@ -74,6 +81,12 @@ export class ShopproductsComponent implements OnInit {
   }
 
   addToCart(product: any) {
-    this.store.dispatch(addToCart({product:product}))
+    this.store.dispatch(addToCart({ product: product }));
   }
-} 
+
+  toogleAddtoCartButton(productId: string) {
+    let found = this.cartProducts.find((i: any) => i._id === productId);
+    if (found) return false;
+    else return true;
+  }
+}

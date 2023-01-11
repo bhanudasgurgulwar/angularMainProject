@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
   declarations: [DasboardComponent],
@@ -18,6 +19,7 @@ import { MatMenuModule } from '@angular/material/menu';
     CommonModule,
     ShopRoutingModule,
     MatCardModule,
+    MatBadgeModule,
     MatSidenavModule,
     MatButtonModule,
     MatIconModule,

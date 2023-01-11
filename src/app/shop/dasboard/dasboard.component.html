@@ -1,34 +1,29 @@
-<div class="shadow">
+<div class="shadow p-2">
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid align-items-baseline">
       <div>
-        <a class="text-decoration-none text-black" routerLink="/shop/">Shop</a>
+        <a class="text-decoration-none text-black fw-bolder" routerLink="/shop/">Shop</a>
       </div>
       <div class="px-2 align-items-baseline">
         <button
-          class="me-1"
-          mat-icon-button
-          color="warn"
+          class="mx-1"
+          mat-mini-fab
+          color="primary"
           aria-label="Cart"
           routerLink="/shop/cart"
+          [matBadge]="cartItems" [matBadgeHidden]="cartItems===0"
+          matBadgeColor="warn"
         >
-          <i class="bi bi-cart4"></i>
+          <mat-icon>shopping_cart</mat-icon>
         </button>
-        <!-- <button
-          mat-icon-button
-          color="accent"
-          aria-label="Example icon button with a menu icon"
-        >
-          <mat-icon>favorite</mat-icon>
-        </button> -->
         <button
-          class="me-1"
-          mat-icon-button
+          class="mx-1"
+          mat-mini-fab
           color="accent"
           aria-label="User"
           [matMenuTriggerFor]="menu"
         >
-          <i class="bi bi-person"></i>
+          <mat-icon>account_circle</mat-icon>
         </button>
       </div>
     </div>
@@ -36,14 +31,14 @@
 </div>
 <mat-menu #menu="matMenu">
   <button mat-menu-item routerLink="/user/profile">
-    <mat-icon>profile</mat-icon>
+    <mat-icon>account_circle</mat-icon>
     <span>Profile</span>
   </button>
   <button mat-menu-item routerLink="/user/order-history">
-    <mat-icon>order</mat-icon>
+    <mat-icon>history</mat-icon>
     <span>Order History</span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item routerLink="/user/change-password">
     <mat-icon>password</mat-icon>
     <span>Change Password</span>
   </button>

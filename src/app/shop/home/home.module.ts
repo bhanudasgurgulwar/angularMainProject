@@ -6,6 +6,7 @@ import { GetproductsComponent } from './getproducts/getproducts.component';
 import { ShopproductsComponent } from './shopproducts/shopproducts.component';
 import { AddToCartComponent } from './add-to-cart/add-to-cart.component';
 import { StoreModule } from '@ngrx/store';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,6 @@ import { StoreModule } from '@ngrx/store';
     ShopproductsComponent,
     AddToCartComponent,
   ],
-  imports: [CommonModule, HomeRoutingModule],
+  imports: [CommonModule, HomeRoutingModule,MatButtonModule],
 })
 export class HomeModule {}

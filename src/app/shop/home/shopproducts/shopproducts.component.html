@@ -108,18 +108,32 @@
                 <small> {{ product?.price | currency : "INR" }} </small>
               </p>
             </div>
-            <div class="p-1">
-              <button class="btn btn-sm btn-outline-dark w-100">
+            <div class="d-flex justify-content-between p-1">
+              <button class="btn btn-sm btn-outline-dark " 
+              mat-raised-button
+              >
                 View Details
               </button>
-              <div class="d-flex justify-content-between p-1">
-                <button class="btn-sm btn btn-warning mx-1 w-50" (click)="addToCart(product)">
-                  add to cart
-                </button>
-                <button class="btn btn-sm btn-primary w-50">
-                  Buy Now
-                </button>
-              </div>
+
+              <button
+                *ngIf="toogleAddtoCartButton(product?._id)"
+                class="ms-1"
+                mat-raised-button
+                color="primary"
+                (click)="addToCart(product)"
+              >
+                Add To Cart
+              </button>
+
+              <button
+                *ngIf="!toogleAddtoCartButton(product?._id)"
+                class="ms-1"
+                mat-raised-button
+                color="warn"
+                routerLink="/shop/cart"
+              >
+                Go To Cart
+              </button>
             </div>
           </div>
         </div>
@@ -127,36 +141,28 @@
     </div>
   </div>
 </div>
-<div class=" bg-dark p-1 d-flex justify-content-center">
+<div class="bg-dark p-1 d-flex justify-content-center">
   <nav aria-label="Page navigation example  ">
-
     <!-- <div> -->
-        <button
-          [ngClass]="
-            currentpage === 1 ? 'btn-secondary disabled' : 'btn-primary'
-          "
-          class="btn btn-sm"
-          (click)="handlePrev()"
-        >
-          Previous
-        </button>
+    <button
+      [ngClass]="currentpage === 1 ? 'btn-secondary disabled' : 'btn-primary'"
+      class="btn btn-sm"
+      (click)="handlePrev()"
+    >
+      Previous
+    </button>
 
+    <span class="btn btn-sm bg-light border">{{ currentpage }}</span>
 
-   
-        <span class="btn btn-sm bg-light border">{{ currentpage }}</span>
-
-     
-        <button
-          [ngClass]="
-            currentpage === totalPages
-              ? 'btn-secondary disabled'
-              : 'btn-primary'
-          "
-          class="btn btn-sm"
-          (click)="handleNext()"
-        >
-          Next
-        </button>
-      <!-- </div> -->
+    <button
+      [ngClass]="
+        currentpage === totalPages ? 'btn-secondary disabled' : 'btn-primary'
+      "
+      class="btn btn-sm"
+      (click)="handleNext()"
+    >
+      Next
+    </button>
+    <!-- </div> -->
   </nav>
 </div>

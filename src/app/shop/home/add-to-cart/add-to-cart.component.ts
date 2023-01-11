@@ -8,6 +8,7 @@ import {
   removeFromCart,
   sumUpTotalAmount,
 } from 'src/app/cart-Store/cart.action';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-to-cart',
@@ -43,8 +44,20 @@ export class AddToCartComponent implements OnInit {
   }
 
   emptyCart() {
-    alert('your cart will get empty');
-    this.store.dispatch(clearCart());
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't to empty your cart!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire('Empty!', 'Your all product has been removed.', 'success');
+          this.store.dispatch(clearCart());
+        }
+      });
   }
 
   addItemsToBuyNow() {

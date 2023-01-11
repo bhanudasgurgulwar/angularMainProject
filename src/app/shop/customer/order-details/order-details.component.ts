@@ -3,7 +3,6 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { HttpserviceService } from 'src/app/Services/HttpServices/httpservice.service';
 import Swal from 'sweetalert2';
 
-
 @Component({
   selector: 'app-order-details',
   templateUrl: './order-details.component.html',
@@ -17,7 +16,7 @@ export class OrderDetailsComponent implements OnInit {
   constructor(
     private http: HttpserviceService,
     private actRoute: ActivatedRoute,
-    private router:Router,
+    private router: Router
   ) {}
   ngOnInit(): void {
     this.actRoute.params.subscribe((param: any) => {
@@ -30,7 +29,6 @@ export class OrderDetailsComponent implements OnInit {
   getCustomerOrdersDetails() {
     this.http.getData(`/shop/orders/${this.orderId}`).subscribe({
       next: (res: any) => {
-        console.log(res);
         this.orderDetails = res;
       },
       error: (err) => console.log(err),
@@ -54,12 +52,12 @@ export class OrderDetailsComponent implements OnInit {
           },
           error: (err) => console.log(err),
         });
-        Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+        Swal.fire('Order Cncelled!', 'Your order has been cancelled.', 'success');
       }
     });
   }
 
-  proceedToPayment(){
-    this.router.navigate([`/user/confirm-payment/${this.orderId}`])
+  proceedToPayment() {
+    this.router.navigate([`/user/confirm-payment/${this.orderId}`]);
   }
 }
